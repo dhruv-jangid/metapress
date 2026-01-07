@@ -1,54 +1,31 @@
-"use client";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Link, useLocation } from "@tanstack/react-router";
+import { Book02Icon, Home09Icon, Login01Icon, PenTool03Icon } from "@hugeicons/core-free-icons";
 
 import {
-  Rss,
-  BookText,
-  PencilRuler,
-  type LucideIcon,
-  MessageCircleMore,
-  House,
-} from "lucide-react";
-import {
-  SidebarMenu,
   SidebarGroup,
-  SidebarMenuItem,
   SidebarGroupLabel,
+  SidebarMenu,
   SidebarMenuButton,
+  SidebarMenuItem,
 } from "../ui/sidebar";
-import Link from "next/link";
-import type { Route } from "next";
-import { usePathname } from "next/navigation";
+import type { IconSvgElement } from "@hugeicons/react";
 
-const navLinks: { title: string; url: Route; icon: LucideIcon }[] = [
+const navLinks: Array<{ title: string; url: string; icon: IconSvgElement }> = [
   {
     title: "Home",
     url: "/",
-    icon: House,
+    icon: Home09Icon,
   },
   {
     title: "Feed",
     url: "/feed",
-    icon: Rss,
-  },
-  {
-    title: "About",
-    url: "/about",
-    icon: BookText,
-  },
-  {
-    title: "Contact",
-    url: "/contact",
-    icon: MessageCircleMore,
-  },
-  {
-    title: "Create",
-    url: "/create-blog",
-    icon: PencilRuler,
+    icon: Book02Icon,
   },
 ];
 
-export const Navbar = () => {
-  const pathname = usePathname();
+export const Navbar = ({ user }: { user: UserSession | null }) => {
+  const pathname = useLocation().pathname;
 
   return (
     <SidebarGroup>
@@ -56,18 +33,28 @@ export const Navbar = () => {
       <SidebarMenu>
         {navLinks.map((item) => (
           <SidebarMenuItem key={item.title}>
-            <SidebarMenuButton
-              tooltip={item.title}
-              isActive={item.url === pathname}
-              asChild
-            >
-              <Link href={item.url}>
-                {item.icon && <item.icon />}
-                <span>{item.title}</span>
+            <SidebarMenuButton tooltip={item.title} isActive={item.url === pathname}>
+              <Link to={item.url} className="flex items-center gap-2 w-full">
+                <HugeiconsIcon icon={item.icon} strokeWidth={2} />
+                <span className="mt-0.5">{item.title}</span>
               </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         ))}
+        <SidebarMenuItem>
+          <SidebarMenuButton
+            tooltip={user ? "Create" : "Login"}
+            isActive={user ? "/create-blog" === pathname : "/sign-in" === pathname}
+          >
+            <Link
+              to={user ? "/create-blog" : "/sign-in"}
+              className="flex items-center gap-2 w-full"
+            >
+              <HugeiconsIcon icon={user ? PenTool03Icon : Login01Icon} strokeWidth={2} />
+              <span className="mt-0.5">{user ? "Create" : "Login"}</span>
+            </Link>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
       </SidebarMenu>
     </SidebarGroup>
   );

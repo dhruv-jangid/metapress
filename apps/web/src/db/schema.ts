@@ -1,19 +1,20 @@
 import {
-  text,
-  jsonb,
+  boolean,
+  foreignKey,
   index,
   integer,
-  boolean,
+  jsonb,
   pgTable,
-  varchar,
-  timestamp,
   primaryKey,
-  foreignKey,
+  text,
+  timestamp,
   uniqueIndex,
-  type PgTimestampConfig,
+  varchar,
 } from "drizzle-orm/pg-core";
 import { sql } from "drizzle-orm";
+
 import { dbDefaults } from "./defaults";
+import type { PgTimestampConfig } from "drizzle-orm/pg-core";
 import { generateSnowflake } from "@/db/snowflake";
 
 const {
@@ -57,10 +58,7 @@ const timestampConfig: PgTimestampConfig = {
   mode: "string",
   withTimezone: true,
 };
-const createdAt = timestamp("created_at", timestampConfig)
-  .$type<string>()
-  .defaultNow()
-  .notNull();
+const createdAt = timestamp("created_at", timestampConfig).$type<string>().defaultNow().notNull();
 const updatedAt = timestamp("updated_at", timestampConfig)
   .$type<string>()
   .defaultNow()
@@ -76,23 +74,15 @@ export const users = pgTable(
   "users",
   {
     id,
-    name: varchar("name", { length: NAME_LENGTH })
-      .default(DEFAULT_NAME)
-      .notNull(),
+    name: varchar("name", { length: NAME_LENGTH }).default(DEFAULT_NAME).notNull(),
     displayUsername: varchar("display_username", { length: NAME_LENGTH }),
-    username: varchar("username", { length: USERNAME_LENGTH })
-      .unique()
-      .notNull(),
+    username: varchar("username", { length: USERNAME_LENGTH }).unique().notNull(),
     email: varchar("email", { length: EMAIL_LENGTH }).notNull(),
-    emailVerified: boolean("email_verified")
-      .default(EMAIL_VERIFIED_DEFAULT)
-      .notNull(),
+    emailVerified: boolean("email_verified").default(EMAIL_VERIFIED_DEFAULT).notNull(),
     image: text("image"),
     createdAt,
     updatedAt,
-    role: varchar("role", { length: ROLE_LENGTH })
-      .default(DEFAULT_ROLE)
-      .notNull(),
+    role: varchar("role", { length: ROLE_LENGTH }).default(DEFAULT_ROLE).notNull(),
     banned: boolean("banned").default(BANNED_DEFAULT).notNull(),
     banReason: text("ban_reason"),
     banExpires: timestamp("ban_expires"),
@@ -100,7 +90,7 @@ export const users = pgTable(
   (table) => [
     uniqueIndex("users_email_key").on(table.email),
     uniqueIndex("users_username_key").on(table.username),
-  ]
+  ],
 );
 
 export const blogs = pgTable(
@@ -126,7 +116,7 @@ export const blogs = pgTable(
     foreignKey({ columns: [table.userId], foreignColumns: [users.id] })
       .onUpdate("cascade")
       .onDelete("cascade"),
-  ]
+  ],
 );
 
 export const blogImages = pgTable(
@@ -144,7 +134,7 @@ export const blogImages = pgTable(
     foreignKey({ columns: [table.blogId], foreignColumns: [blogs.id] })
       .onUpdate("cascade")
       .onDelete("cascade"),
-  ]
+  ],
 );
 
 export const likes = pgTable(
@@ -165,7 +155,7 @@ export const likes = pgTable(
     foreignKey({ columns: [table.blogId], foreignColumns: [blogs.id] })
       .onUpdate("cascade")
       .onDelete("cascade"),
-  ]
+  ],
 );
 
 export const comments = pgTable(
@@ -191,7 +181,7 @@ export const comments = pgTable(
     foreignKey({ columns: [table.blogId], foreignColumns: [blogs.id] })
       .onUpdate("cascade")
       .onDelete("cascade"),
-  ]
+  ],
 );
 
 export const accounts = pgTable(
@@ -207,10 +197,7 @@ export const accounts = pgTable(
     refreshToken: text("refresh_token"),
     idToken: text("id_token"),
     accessTokenExpiresAt: timestamp("access_token_expires_at", timestampConfig),
-    refreshTokenExpiresAt: timestamp(
-      "refresh_token_expires_at",
-      timestampConfig
-    ),
+    refreshTokenExpiresAt: timestamp("refresh_token_expires_at", timestampConfig),
     scope: varchar("scope", { length: SCOPE_LENGTH }),
     password: varchar("password", { length: PASSWORD_LENGTH }),
     createdAt,
@@ -222,7 +209,7 @@ export const accounts = pgTable(
     foreignKey({ columns: [table.userId], foreignColumns: [users.id] })
       .onUpdate("cascade")
       .onDelete("cascade"),
-  ]
+  ],
 );
 
 export const sessions = pgTable(
@@ -244,7 +231,7 @@ export const sessions = pgTable(
     foreignKey({ columns: [table.userId], foreignColumns: [users.id] })
       .onUpdate("cascade")
       .onDelete("cascade"),
-  ]
+  ],
 );
 
 export const verifications = pgTable("verifications", {

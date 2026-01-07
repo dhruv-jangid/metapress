@@ -1,9 +1,9 @@
-"use client";
-
 import { toast } from "sonner";
-import { Heart } from "lucide-react";
 import { useRef, useState } from "react";
-import { likeBlog, unlikeBlog } from "@/core/blog/blog.actions";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Heart } from "@hugeicons/core-free-icons";
+
+import { likeBlog, unlikeBlog } from "@/server/blog/blog.controller";
 
 export const Like = ({
   blogId,
@@ -36,9 +36,9 @@ export const Like = ({
 
     try {
       if (newLikedState) {
-        await likeBlog({ blogId: blogId });
+        await likeBlog({ data: { blogId } });
       } else {
-        await unlikeBlog({ blogId: blogId });
+        await unlikeBlog({ data: { blogId } });
       }
     } catch (error) {
       setTempIsLiked(prevLiked);
@@ -56,19 +56,18 @@ export const Like = ({
 
   return (
     <div className="flex items-center gap-1 antialiased">
-      <div
-        onClick={handleLikeUnlike}
-        className="flex items-center gap-1 text-pretty"
-      >
+      <div onClick={handleLikeUnlike} className="flex items-center gap-1 text-pretty">
         {tempIsLiked ? (
-          <Heart
+          <HugeiconsIcon
+            icon={Heart}
             strokeWidth={1}
             size={32}
             cursor="pointer"
             className="fill-red-600 stroke-red-600"
           />
         ) : (
-          <Heart
+          <HugeiconsIcon
+            icon={Heart}
             strokeWidth={1}
             size={32}
             cursor="pointer"

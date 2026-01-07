@@ -1,11 +1,9 @@
-"use client";
-
 import StarterKit from "@tiptap/starter-kit";
 import { Selection } from "@tiptap/extensions";
 import Youtube from "@tiptap/extension-youtube";
 import TipTapImage from "@tiptap/extension-image";
 import TextAlign from "@tiptap/extension-text-align";
-import { useEditor, EditorContent } from "@tiptap/react";
+import { EditorContent, useEditor } from "@tiptap/react";
 import { TextStyleKit } from "@tiptap/extension-text-style";
 import Emoji, { gitHubEmojis } from "@tiptap/extension-emoji";
 
@@ -45,7 +43,7 @@ export const ContentViewer = ({ content }: { content: BlogContent }) => {
   return (
     <EditorContent
       editor={editor}
-      className="prose prose-slate dark:prose-invert max-w-none bg-transparent text-foreground 
+      className="prose prose-slate dark:prose-invert max-w-none bg-transparent text-foreground
             [&_.ProseMirror]:outline-none [&_.ProseMirror_iframe]:w-full [&_.ProseMirror_iframe]:h-64
             sm:[&_.ProseMirror_iframe]:h-80 md:[&_.ProseMirror_iframe]:aspect-video [&_.ProseMirror_iframe]:rounded-lg
             [&_.ProseMirror_h1]:text-4xl [&_.ProseMirror_h1]:font-bold [&_.ProseMirror_h1]:mb-2 [&_.ProseMirror_h1]:tracking-tight

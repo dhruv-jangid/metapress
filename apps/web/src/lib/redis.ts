@@ -1,4 +1,3 @@
-import "server-only";
 import { createClient } from "redis";
 
 const globalForRedis = globalThis as unknown as {

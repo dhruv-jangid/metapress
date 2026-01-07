@@ -1,6 +1,6 @@
 # MetaPress: The Pulse of Creativity
 
-A next-gen, full-featured blogging platform built with Next.js 16, React 19, Bun, and Turborepo. Features rich text editing, advanced user authentication, content moderation, admin management, and Model Context Protocol (MCP) AI integration. Now at **v2.0.0**.
+A next-gen, full-featured blogging platform built with TanStack Start, React 19, Bun, and Turborepo. Features rich text editing, advanced user authentication, content moderation, admin management, and Model Context Protocol (MCP) AI integration. Now at **v2.0.0**.
 
 ## Overview
 
@@ -8,7 +8,7 @@ MetaPress is a comprehensive, scalable blogging platform for creators and reader
 
 ### Key Highlights
 
-- **Modern Tech Stack**: Next.js 16, React 19, Bun, Turborepo, TypeScript
+- **Modern Tech Stack**: TanStack Start, TanStack Router, React 19, Bun, Turborepo, TypeScript
 - **Rich Content Creation**: TipTap editor, image/media support, emoji, YouTube embeds
 - **User Experience**: Responsive UI, dark/light mode, fast navigation
 - **Security & Moderation**: NSFW detection, profanity filtering, role-based access
@@ -82,14 +82,16 @@ MetaPress is a comprehensive, scalable blogging platform for creators and reader
 
 ### Frontend
 
-- **Next.js 16** (App Router, Server Components)
+- **TanStack Start** (Full-stack React framework)
+- **TanStack Router** (Type-safe routing)
 - **React 19**
+- **Vite** (Build tool)
+- **Nitro** (Server engine, Vercel preset)
 - **TypeScript 5.9+**
 - **Tailwind CSS 4.1+**
 - **shadcn/ui** (Radix UI)
 - **TipTap 3.7+**
-- **next-themes**
-- **Turbopack**
+- **next-themes** (Theme management)
 
 ### Backend & Database
 
@@ -149,26 +151,29 @@ Visit [http://localhost:3000](http://localhost:3000)
 ## Project Structure
 
 ```bash
-nextblog/
+metapress/
 ├── apps/
-│   └── web/
+│   └── web/                 # Main web application
 │       ├── src/
-│       │   ├── app/         # App Router, pages, layouts
-│       │   ├── components/  # UI, providers, sidebar
-│       │   ├── core/        # Auth, blog, cache, user, etc.
-│       │   ├── db/          # Schema, relations, drizzle
-│       │   ├── hooks/       # Custom hooks
-│       │   ├── lib/         # Utils, content, image
-│       │   ├── shared/      # Shared logic
-│       ├── public/          # Images, models
-│       ├── docker-compose.yml
+│       │   ├── routes/      # TanStack Router routes
+│       │   ├── components/  # UI components, providers, sidebar
+│       │   ├── server/      # Server-side logic (auth, blog, cache, etc.)
+│       │   ├── db/          # Database schema, relations, drizzle config
+│       │   ├── hooks/       # Custom React hooks
+│       │   ├── lib/         # Utilities, content, image processing
+│       │   ├── middleware/  # Route middleware
+│       │   ├── shared/      # Shared schemas and types
+│       │   ├── router.tsx   # Router configuration
+│       │   └── styles.css   # Global styles
+│       ├── public/          # Static assets (images, models)
 │       ├── drizzle.config.ts
-│       ├── postcss.config.mjs
+│       ├── vite.config.ts
 │       ├── tsconfig.json
-│       ├── vercel.json
-├── bunfig.toml
-├── package.json
-├── turbo.json
+│       └── package.json
+├── bunfig.toml              # Bun configuration
+├── package.json             # Root package.json (monorepo)
+├── turbo.json               # Turborepo configuration
+└── vercel.json              # Vercel deployment config
 ```
 
 ## Environment Variables
@@ -184,7 +189,7 @@ CLOUDINARY_API_KEY=your_api_key
 CLOUDINARY_API_SECRET=your_api_secret
 
 # Database
-DATABASE_URL=postgresql://username:password@localhost:5432/nextblog
+DATABASE_URL=postgresql://username:password@localhost:5432/metapress
 # Or Neon:
 POSTGRES_URL=postgresql://username:password@host:port/database
 
@@ -220,7 +225,7 @@ KV_REST_API_READ_ONLY_TOKEN=your_readonly_token
 ```bash
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=postgres
-POSTGRES_DB=nextblog
+POSTGRES_DB=metapress
 ```
 
 ### Setup
@@ -232,13 +237,13 @@ POSTGRES_DB=nextblog
 
 ## Scripts
 
-- `bun dev` - Dev mode (Turbopack)
+- `bun dev` - Start development server (Vite)
 - `bun build` - Production build
-- `bun start` - Start prod server
-- `bun check-types` - TypeScript check
-- `bun docker` - Start DB/cache containers
-- `bun clean` - Clean artifacts
-- `bun in` - Install/update all deps
+- `bun start` - Start production server
+- `bun check-types` - TypeScript type checking
+- `bun docker` - Start DB/cache containers (if docker-compose.yml exists)
+- `bun clean` - Clean build artifacts
+- `bun in` - Install and update all dependencies
 
 ## Database & Docker
 
@@ -260,8 +265,8 @@ bun drizzle-kit push
 ### Local (No Docker)
 
 1. Install PostgreSQL
-2. Create DB `nextblog`
-3. Update `.env`
+2. Create database `metapress`
+3. Update `.env` with `DATABASE_URL`
 4. Run migrations as above
 
 ### Production (Neon/Other)
@@ -273,16 +278,16 @@ bun drizzle-kit push
 
 ## Docker Setup
 
-Docker Compose config for local PostgreSQL/Redis:
+If you have a `docker-compose.yml` file in `apps/web/`, you can use it for local PostgreSQL/Redis:
 
-- **PostgreSQL**: 5432
-- **Redis**: 6379
+- **PostgreSQL**: Port 5432
+- **Redis**: Port 6379
 
 Start:
 
 ```bash
 bun docker
-# or
+# or manually:
 docker compose -f apps/web/docker-compose.yml up -d
 ```
 
@@ -292,11 +297,13 @@ Stop:
 docker compose -f apps/web/docker-compose.yml down
 ```
 
-Logs:
+View logs:
 
 ```bash
 docker compose -f apps/web/docker-compose.yml logs -f
 ```
+
+**Note**: If you don't have a docker-compose.yml file, you can create one or use a managed database service like Neon for PostgreSQL and Upstash for Redis.
 
 ## MCP Integration
 
@@ -317,26 +324,25 @@ Get user details by username (3-30 chars, lowercase, alphanumeric/underscores).
 
 ### Endpoints
 
-- HTTP: `POST /api/http`
-- SSE: `GET /api/sse`
-- WebSocket: `WS /api/ws`
+- HTTP: `POST /api/mcp/http`
+- SSE: `GET /api/mcp/sse`
+- WebSocket: `WS /api/mcp/ws`
 
 ### Example
 
 ```ts
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
-const client = new Client({ name: "nextblog-client", version: "2.0.0" });
+const client = new Client({ name: "metapress-client", version: "2.0.0" });
 const result = await client.callTool({
   name: "getUserInfo",
   arguments: { username: "johndoe" },
 });
 ```
 
-### Dev
+### Development
 
-- Handler: `apps/web/src/app/api/[transport]/route.ts`
-- Tool: `apps/web/src/app/api/[transport]/tools.ts`
-- Schema: `apps/web/src/core/mcp/mcp.schema.ts`
+- Handler: `apps/web/src/routes/api/mcp/$.ts`
+- Schema: `apps/web/src/server/mcp/mcp.schema.ts`
 
 ## Deployment
 
@@ -366,9 +372,10 @@ Set all required env vars:
 
 ### Build
 
-- **Turbopack** for dev
-- **Next.js** for prod
-- **Bun** as package manager
+- **Vite** for development and production builds
+- **Nitro** for server-side rendering and API routes
+- **Bun** as package manager and runtime
+- **Turborepo** for monorepo task orchestration
 
 ## Contributing
 
@@ -384,8 +391,9 @@ Set all required env vars:
 - Conventional commits
 - Pass all tests
 - Update docs
-- Use Turbopack for dev
+- Use Vite for development
 - Test on multiple devices
+- Follow TanStack Router conventions
 
 ## License
 
@@ -400,7 +408,10 @@ MIT - see [LICENSE](LICENSE)
 - [Drizzle ORM](https://orm.drizzle.team/)
 - [Vercel](https://vercel.com/)
 - [Model Context Protocol](https://modelcontextprotocol.io/)
-- [Next.js](https://nextjs.org/)
+- [TanStack Start](https://tanstack.com/start)
+- [TanStack Router](https://tanstack.com/router)
+- [Vite](https://vitejs.dev/)
+- [Nitro](https://nitro.unjs.io/)
 - [Tailwind CSS](https://tailwindcss.com/)
 - [Bun](https://bun.sh/)
 

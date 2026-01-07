@@ -1,5 +1,3 @@
-export {};
-
 import type { auth } from "@/lib/auth";
 
 declare global {
@@ -7,3 +5,5 @@ declare global {
 
   type OAuth = "google" | "github";
 }
+
+export {};

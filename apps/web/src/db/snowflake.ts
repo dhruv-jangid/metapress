@@ -1,8 +1,7 @@
-import "server-only";
 import { Snowflake } from "@sapphire/snowflake";
 
-const workerId = BigInt(process.env.SNOWFLAKE_WORKER_ID!);
-const epoch = new Date(process.env.SNOWFLAKE_EPOCH!);
+const workerId = BigInt(process.env.SNOWFLAKE_WORKER_ID);
+const epoch = new Date(process.env.SNOWFLAKE_EPOCH);
 export const snowflake = new Snowflake(epoch);
 
 export const generateSnowflake = () => {

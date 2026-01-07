@@ -1,7 +1,8 @@
 import { z } from "zod";
-import { checkProfanity } from "@/lib/profanity";
+
 import { imageSchema } from "../blog/blog.schema";
 import { nameSchema, usernameSchema } from "../user/user.schema";
+import { checkProfanity } from "@/lib/profanity";
 
 export const emailSchema = z.email("Invalid email address");
 

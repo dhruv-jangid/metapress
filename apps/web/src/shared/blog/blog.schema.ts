@@ -1,11 +1,8 @@
 import { z } from "zod";
-import {
-  blogCategories,
-  MAX_IMAGE_SIZE,
-  ALLOWED_IMAGE_TYPES,
-} from "./blog.constants";
-import { checkProfanity } from "@/lib/profanity";
+
 import { nameSchema, usernameSchema } from "../user/user.schema";
+import { ALLOWED_IMAGE_TYPES, MAX_IMAGE_SIZE, blogCategories } from "./blog.constants";
+import { checkProfanity } from "@/lib/profanity";
 
 export const titleSchema = z
   .string()
@@ -21,10 +18,7 @@ export const categorySchema = z.enum(blogCategories, "Invalid Category");
 export const imageSchema = z.url().refine((url) => {
   try {
     const urlObj = new URL(url);
-    return (
-      urlObj.hostname === "res.cloudinary.com" ||
-      urlObj.hostname.endsWith(".cloudinary.com")
-    );
+    return urlObj.hostname === "res.cloudinary.com" || urlObj.hostname.endsWith(".cloudinary.com");
   } catch {
     return false;
   }
@@ -35,13 +29,13 @@ export const imageClientSchema = z
   .refine((file) => file.size > 0, "Invalid image")
   .refine(
     (file) => file.size <= MAX_IMAGE_SIZE,
-    `Image must be under ${MAX_IMAGE_SIZE / 1024 / 1024}MB`
+    `Image must be under ${MAX_IMAGE_SIZE / 1024 / 1024}MB`,
   )
   .refine(
     (file) => ALLOWED_IMAGE_TYPES.includes(file.type),
     `Only ${ALLOWED_IMAGE_TYPES.map((t) => t.split("/")[1].toUpperCase()).join(
-      ", "
-    )} images are allowed`
+      ", ",
+    )} images are allowed`,
   );
 
 export const createBlogClientSchema = z.object({
@@ -64,7 +58,7 @@ export const editBlogClientSchema = z
       z.object({
         url: imageSchema,
         publicId: z.string().min(1, "publicId is required"),
-      })
+      }),
     ),
   })
   .refine((data) => {

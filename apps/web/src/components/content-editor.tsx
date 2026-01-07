@@ -1,28 +1,29 @@
-"use client";
-
 import {
-  List,
-  Link2,
-  Undo2,
-  Redo2,
   Baseline,
-  ImagePlus,
-  MoveHorizontal,
   Bold as BoldIcon,
+  ImagePlus,
   Italic as ItalicIcon,
+  Link2,
+  List,
+  MoveHorizontal,
+  Redo2,
   Underline as UnderlineIcon,
-} from "lucide-react";
+  Undo2,
+} from "@hugeicons/core-free-icons";
 import { toast } from "sonner";
 import StarterKit from "@tiptap/starter-kit";
 import Youtube from "@tiptap/extension-youtube";
 import { BubbleMenu } from "@tiptap/react/menus";
+import { HugeiconsIcon } from "@hugeicons/react";
 import TipTapImage from "@tiptap/extension-image";
 import TextAlign from "@tiptap/extension-text-align";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { useEditor, EditorContent } from "@tiptap/react";
+import { EditorContent, useEditor } from "@tiptap/react";
 import { TextStyleKit } from "@tiptap/extension-text-style";
 import Emoji, { gitHubEmojis } from "@tiptap/extension-emoji";
-import { Selection, Placeholder, CharacterCount } from "@tiptap/extensions";
+import { CharacterCount, Placeholder, Selection } from "@tiptap/extensions";
+
+import type { IconSvgElement } from "@hugeicons/react";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export const ContentEditor = ({
   content,
@@ -38,18 +39,16 @@ export const ContentEditor = ({
     enableContentCheck: true,
     injectCSS: false,
     content,
-    onUpdate: ({ editor }) => {
-      const doc = editor.state.doc;
-      const tr = editor.state.tr;
+    onUpdate: ({ editor: edtr }) => {
+      const doc = edtr.state.doc;
+      const tr = edtr.state.tr;
       let hasChanges = false;
 
       doc.descendants((node, pos) => {
         if (node.type.name === "image" && node.attrs.src) {
           const src = node.attrs.src;
           const isBase64 = src.startsWith("data:");
-          const isCloudinary =
-            src.includes("cloudinary.com") ||
-            src.includes("res.cloudinary.com");
+          const isCloudinary = src.includes("cloudinary.com") || src.includes("res.cloudinary.com");
 
           if (!isBase64 && !isCloudinary) {
             tr.delete(pos, pos + node.nodeSize);
@@ -59,9 +58,9 @@ export const ContentEditor = ({
       });
 
       if (hasChanges) {
-        editor.view.dispatch(tr);
+        edtr.view.dispatch(tr);
       } else {
-        onChange?.(editor.getJSON());
+        onChange?.(edtr.getJSON());
       }
     },
     extensions: [
@@ -97,7 +96,7 @@ export const ContentEditor = ({
 
   return (
     <div
-      className="relative outline rounded-lg overflow-hidden aria-disabled:opacity-50"
+      className="relative outline rounded-4xl overflow-hidden aria-disabled:opacity-50"
       aria-disabled={loading}
     >
       <BubbleMenu
@@ -178,7 +177,7 @@ export const ContentEditor = ({
         </div>
         <div className="flex mt-0.5">
           <label className="cursor-pointer flex items-center px-3.5 py-3 outline hover:bg-accent/50 transition-colors">
-            <ImagePlus size={18} strokeWidth={1.5} />
+            <HugeiconsIcon icon={ImagePlus} size={18} strokeWidth={1.5} />
             <input
               type="file"
               accept="image/*"
@@ -190,14 +189,10 @@ export const ContentEditor = ({
                 }
 
                 const reader = new FileReader();
-                reader.onload = (e) => {
-                  const result = e.target?.result;
+                reader.onload = (x) => {
+                  const result = x.target?.result;
                   if (typeof result === "string") {
-                    editor
-                      .chain()
-                      .focus()
-                      .setImage({ src: result, alt: file.name })
-                      .run();
+                    editor.chain().focus().setImage({ src: result, alt: file.name }).run();
                   }
                 };
                 reader.readAsDataURL(file);
@@ -218,33 +213,19 @@ export const ContentEditor = ({
             tooltip="Horizontal Line"
           />
           <MenuButton
-            onClick={() =>
-              editor.chain().focus().setColor("oklch(63.7% 0.237 25.331)").run()
-            }
+            onClick={() => editor.chain().focus().setColor("oklch(63.7% 0.237 25.331)").run()}
             icon={Baseline}
             tooltip="Red Text"
             iconClasses="stroke-red-500"
           />
           <MenuButton
-            onClick={() =>
-              editor
-                .chain()
-                .focus()
-                .setColor("oklch(62.3% 0.214 259.815)")
-                .run()
-            }
+            onClick={() => editor.chain().focus().setColor("oklch(62.3% 0.214 259.815)").run()}
             icon={Baseline}
             tooltip="Blue Text"
             iconClasses="stroke-blue-500"
           />
           <MenuButton
-            onClick={() =>
-              editor
-                .chain()
-                .focus()
-                .setColor("oklch(72.3% 0.219 149.579)")
-                .run()
-            }
+            onClick={() => editor.chain().focus().setColor("oklch(72.3% 0.219 149.579)").run()}
             icon={Baseline}
             tooltip="Green Text"
             iconClasses="stroke-green-500"
@@ -273,7 +254,7 @@ export const ContentEditor = ({
         <ScrollArea className="p-4 h-[60dvh]">
           <EditorContent
             editor={editor}
-            className={`prose prose-slate dark:prose-invert max-w-none bg-transparent text-foreground 
+            className={`prose prose-slate dark:prose-invert max-w-none bg-transparent text-foreground
             [&_.ProseMirror]:outline-none [&_.ProseMirror_iframe]:w-full [&_.ProseMirror_iframe]:h-64
             sm:[&_.ProseMirror_iframe]:h-80 md:[&_.ProseMirror_iframe]:aspect-video [&_.ProseMirror_iframe]:rounded-lg
             [&_.ProseMirror_h1]:text-4xl [&_.ProseMirror_h1]:font-bold [&_.ProseMirror_h1]:mb-2
@@ -303,7 +284,7 @@ const MenuButton = ({
 }: {
   onClick: () => void;
   isActive?: boolean;
-  icon: React.ElementType;
+  icon: IconSvgElement;
   tooltip?: string;
   disabled?: boolean;
   iconClasses?: string;
@@ -317,6 +298,6 @@ const MenuButton = ({
       isActive && "text-primary-foreground bg-muted-foreground"
     }`}
   >
-    <Icon size={16} className={`${iconClasses}`} />
+    <HugeiconsIcon icon={Icon} size={16} className={`${iconClasses}`} />
   </button>
 );

@@ -1,16 +1,16 @@
-"use client";
-
-import Link from "next/link";
 import { toast } from "sonner";
 import { ZodError } from "zod";
 import { useState } from "react";
+import { Link } from "@tanstack/react-router";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { MessageSquareText, Trash2 } from "@hugeicons/core-free-icons";
+
 import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
-import { getFirstZodError } from "@/lib/utils";
-import { MessageSquareText, Trash2 } from "lucide-react";
-import { useAlertDialog } from "./providers/alertProvider";
+import { useAlertDialog } from "./providers/alert-provider";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
-import { createComment, deleteComment } from "@/core/comment/comment.actions";
+import { getFirstZodError } from "@/lib/utils";
+import { createComment, deleteComment } from "@/server/comment/comment.controller";
 
 export const Comment = ({
   blogId,
@@ -19,7 +19,7 @@ export const Comment = ({
   username,
 }: {
   blogId: string;
-  comments: BlogComment[];
+  comments: Array<BlogComment>;
   isAuthor: boolean;
   username: string;
 }) => {
@@ -31,7 +31,7 @@ export const Comment = ({
   const handleAddComment = async () => {
     setLoading(true);
     try {
-      const newComment = await createComment({ blogId, content: comment });
+      const newComment = await createComment({ data: { blogId, content: comment } });
       setComment("");
       setCommentsList((prev) => [...prev, newComment]);
     } catch (error) {
@@ -47,10 +47,10 @@ export const Comment = ({
     }
   };
 
-  const handleDeleteComment = async (blogId: string, comment: BlogComment) => {
+  const handleDeleteComment = async (blogIdX: string, commentX: BlogComment) => {
     try {
-      await deleteComment({ commentId: comment.id, blogId });
-      setCommentsList((prev) => prev.filter((c) => c.id !== comment.id));
+      await deleteComment({ data: { commentId: commentX.id, blogId: blogIdX } });
+      setCommentsList((prev) => prev.filter((c) => c.id !== commentX.id));
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);
@@ -77,48 +77,41 @@ export const Comment = ({
           {comment.length}/100
         </span>
         <div className="flex justify-end gap-2.5 sm:gap-4">
-          <Button
-            size="sm"
-            onClick={handleAddComment}
-            disabled={loading || !comment.trim()}
-          >
+          <Button size="sm" onClick={handleAddComment} disabled={loading || !comment.trim()}>
             {loading ? (
               "..."
             ) : (
               <>
-                Comment <MessageSquareText />
+                Comment <HugeiconsIcon icon={MessageSquareText} />
               </>
             )}
           </Button>
         </div>
       </div>
 
-      {commentsList.map((comment) => (
+      {commentsList.map((c) => (
         <div
-          key={comment.id}
+          key={c.id}
           className="flex justify-between p-4 border border-input rounded-xl bg-input/20"
         >
           <div className="flex gap-3">
             <Link
-              href={`/${comment.authorUsername}`}
+              to="/$username"
+              params={{ username: c.authorUsername }}
               className="relative w-8 h-8 rounded-full overflow-hidden"
             >
               <Avatar>
-                <AvatarImage
-                  src={comment.authorImage || undefined}
-                  alt={comment.authorName}
-                />
-                <AvatarFallback>
-                  {comment.authorName[0].toUpperCase() || "M"}
-                </AvatarFallback>
+                <AvatarImage src={c.authorImage || undefined} alt={c.authorName} />
+                <AvatarFallback>{c.authorName[0].toUpperCase() || "M"}</AvatarFallback>
               </Avatar>
             </Link>
             <div className="flex flex-col gap-0.5">
               <Link
-                href={`/${comment.authorUsername}`}
+                to="/$username"
+                params={{ username: c.authorUsername }}
                 className="font-medium line-clamp-1 hover:animate-pulse text-sm w-fit"
               >
-                {comment.authorName}
+                {c.authorName}
               </Link>
               <span className="text-sm text-neutral-400">
                 {new Intl.DateTimeFormat("en-US", {
@@ -128,21 +121,22 @@ export const Comment = ({
                   hour: "numeric",
                   minute: "numeric",
                   hour12: true,
-                }).format(new Date(comment.createdAt))}
+                }).format(new Date(c.createdAt))}
               </span>
-              <p className="mt-4">{comment.content}</p>
+              <p className="mt-4">{c.content}</p>
             </div>
           </div>
-          {(isAuthor || comment.authorUsername === username) && (
-            <Trash2
+          {(isAuthor || c.authorUsername === username) && (
+            <HugeiconsIcon
+              icon={Trash2}
               size={16}
               className="cursor-pointer stroke-red-600 mt-0.5 mr-0.5"
               onClick={() =>
                 show({
                   title: "Delete comment?",
-                  description: comment.content,
+                  description: c.content,
                   actionLabel: "Delete",
-                  onConfirm: () => handleDeleteComment(blogId, comment),
+                  onConfirm: () => handleDeleteComment(blogId, c),
                 })
               }
             />

@@ -1,36 +1,36 @@
-"use client";
+import {
+  AllBookmarkIcon,
+  ArrowUpRight01Icon,
+  AtSign,
+  File01Icon,
+  HelpCircleIcon,
+  LogOut,
+  MessageMultiple01Icon,
+  Moon02Icon,
+  Orbit01Icon,
+  Settings2,
+  Sun01Icon,
+  UnfoldMoreIcon,
+} from "@hugeicons/core-free-icons";
+import { useTheme } from "next-themes";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Link, useRouter } from "@tanstack/react-router";
 
 import {
-  AtSign,
-  LogOut,
-  Palette,
-  Bookmark,
-  Settings2,
-  ChevronsUpDown,
-  Fingerprint,
-} from "lucide-react";
-import {
-  useSidebar,
-  SidebarMenu,
-  SidebarMenuItem,
-  SidebarMenuButton,
-} from "../ui/sidebar";
-import {
   DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuGroup,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
   DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import Link from "next/link";
-import { toast } from "sonner";
-import { Button } from "../ui/button";
-import { useTheme } from "next-themes";
-import { useRouter } from "next/navigation";
-import { authClient } from "@/lib/auth-client";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
+import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "../ui/sidebar";
+import { authClient } from "@/lib/auth-client";
 
 export const Footer = ({ user }: { user: UserSession | null }) => {
   const router = useRouter();
@@ -39,86 +39,66 @@ export const Footer = ({ user }: { user: UserSession | null }) => {
 
   const handleSignOut = async () => {
     try {
-      await authClient.signOut({}, { throw: true });
-
-      router.push("/signin");
-    } catch {
-      toast.error("Something went wrong");
-    } finally {
-      router.refresh();
-    }
+      const { data } = await authClient.signOut();
+      if (data && data.success) {
+        router.navigate({ to: "/sign-in", reloadDocument: true, replace: true });
+      }
+    } catch {}
   };
 
   return (
     <SidebarMenu>
       <SidebarMenuItem>
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <SidebarMenuButton
-              size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-            >
-              <Avatar className="h-8 w-8">
-                <AvatarImage
-                  src={user?.image ?? undefined}
-                  alt={user?.name ?? "M"}
-                />
-                <AvatarFallback>
-                  {user?.name[0].toUpperCase() ?? "M"}
-                </AvatarFallback>
-              </Avatar>
-              <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">
-                  {user?.name ?? "Guest"}
-                </span>
-                <span className="truncate text-xs">
-                  {user?.email ?? "Login to get started"}
-                </span>
-              </div>
-              <ChevronsUpDown className="ml-auto size-4" />
-            </SidebarMenuButton>
-          </DropdownMenuTrigger>
+          <DropdownMenuTrigger
+            render={(props) => (
+              <SidebarMenuButton
+                {...props}
+                size="lg"
+                className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+              >
+                <Avatar className="h-8 w-8">
+                  <AvatarImage src={user?.image ?? undefined} alt={user?.name ?? "M"} />
+                  <AvatarFallback>{user?.name[0].toUpperCase() ?? "M"}</AvatarFallback>
+                </Avatar>
+                <div className="grid flex-1 text-left text-sm leading-tight">
+                  <span className="truncate font-medium">{user?.name ?? "Guest"}</span>
+                  <span className="truncate text-xs">{user?.email ?? "Login to get started"}</span>
+                </div>
+                <HugeiconsIcon icon={UnfoldMoreIcon} className="ml-auto size-4" />
+              </SidebarMenuButton>
+            )}
+          />
 
           <DropdownMenuContent
-            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
+            className="w-(--radix-dropdown-menu-trigger-width) min-w-56"
             side={isMobile ? "bottom" : "right"}
             align="end"
             sideOffset={4}
           >
-            <DropdownMenuLabel className="p-0 font-normal">
-              {user ? (
-                <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-                  <Avatar className="h-8 w-8 rounded-lg">
-                    <AvatarImage
-                      src={user.image ?? undefined}
-                      alt={user.name}
-                    />
-                    <AvatarFallback className="rounded-lg">
-                      {user?.name[0].toUpperCase()}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-medium">{user.name}</span>
-                    <span className="truncate text-xs">{user.email}</span>
+            <DropdownMenuGroup>
+              <DropdownMenuLabel className="p-0 font-normal">
+                {user && (
+                  <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage src={user.image ?? undefined} alt={user.name} />
+                      <AvatarFallback>{user?.name[0].toUpperCase()}</AvatarFallback>
+                    </Avatar>
+                    <div className="grid flex-1 text-left text-sm leading-tight">
+                      <span className="truncate font-medium">{user.name}</span>
+                      <span className="truncate text-xs">{user.email}</span>
+                    </div>
                   </div>
-                </div>
-              ) : (
-                <Link href="/sign-up">
-                  <Button size="lg" className="w-full">
-                    Get Started <Fingerprint />
-                  </Button>
-                </Link>
-              )}
-            </DropdownMenuLabel>
+                )}
+              </DropdownMenuLabel>
+            </DropdownMenuGroup>
 
-            <DropdownMenuSeparator />
+            {user && <DropdownMenuSeparator />}
 
             <DropdownMenuGroup>
-              <DropdownMenuItem
-                onClick={() => setTheme(theme === "light" ? "dark" : "light")}
-              >
-                <Palette />
-                Toggle Theme
+              <DropdownMenuItem onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
+                <HugeiconsIcon icon={theme === "light" ? Moon02Icon : Sun01Icon} />
+                {theme === "light" ? "Dark Theme" : "Light Theme"}
               </DropdownMenuItem>
             </DropdownMenuGroup>
 
@@ -128,29 +108,65 @@ export const Footer = ({ user }: { user: UserSession | null }) => {
 
                 <DropdownMenuGroup>
                   <DropdownMenuItem
-                    onClick={() => router.push(`/${user.username}`)}
+                    onClick={() =>
+                      router.navigate({ to: "/$username", params: { username: user.username } })
+                    }
                   >
-                    <AtSign />
+                    <HugeiconsIcon icon={AtSign} />
                     Profile
                   </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => router.push("/account/profile")}
-                  >
-                    <Settings2 />
+                  <DropdownMenuItem onClick={() => router.navigate({ to: "/account/profile" })}>
+                    <HugeiconsIcon icon={Settings2} />
                     Settings
                   </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => router.push("/account/liked")}
-                  >
-                    <Bookmark />
+                  <DropdownMenuItem onClick={() => router.navigate({ to: "/account/liked" })}>
+                    <HugeiconsIcon icon={AllBookmarkIcon} />
                     Liked Blogs
                   </DropdownMenuItem>
                 </DropdownMenuGroup>
 
                 <DropdownMenuSeparator />
 
-                <DropdownMenuItem onClick={handleSignOut}>
-                  <LogOut />
+                <DropdownMenuSub>
+                  <DropdownMenuSubTrigger className="gap-2.5">
+                    <HugeiconsIcon icon={Orbit01Icon} />
+                    Help
+                  </DropdownMenuSubTrigger>
+                  <DropdownMenuSubContent className="min-w-48">
+                    <Link to="/about" target="_blank">
+                      <DropdownMenuItem className="group">
+                        <HugeiconsIcon icon={HelpCircleIcon} />
+                        About
+                        <HugeiconsIcon
+                          icon={ArrowUpRight01Icon}
+                          className="hidden group-hover:block opacity-50 ml-auto"
+                        />
+                      </DropdownMenuItem>
+                    </Link>
+                    <Link to="/policies" target="_blank">
+                      <DropdownMenuItem className="group">
+                        <HugeiconsIcon icon={File01Icon} />
+                        Terms & policies
+                        <HugeiconsIcon
+                          icon={ArrowUpRight01Icon}
+                          className="hidden group-hover:block opacity-50 ml-auto"
+                        />
+                      </DropdownMenuItem>
+                    </Link>
+                    <Link to="/contact" target="_blank">
+                      <DropdownMenuItem className="group">
+                        <HugeiconsIcon icon={MessageMultiple01Icon} />
+                        Contact
+                        <HugeiconsIcon
+                          icon={ArrowUpRight01Icon}
+                          className="hidden group-hover:block opacity-50 ml-auto"
+                        />
+                      </DropdownMenuItem>
+                    </Link>
+                  </DropdownMenuSubContent>
+                </DropdownMenuSub>
+                <DropdownMenuItem className="text-destructive" onClick={handleSignOut}>
+                  <HugeiconsIcon icon={LogOut} />
                   Log out
                 </DropdownMenuItem>
               </>

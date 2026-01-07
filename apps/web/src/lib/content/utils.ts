@@ -1,6 +1,6 @@
 export const replaceImageUrls = (
   content: BlogContent,
-  replacements: Record<string, string>
+  replacements: Record<string, string>,
 ): BlogContent => {
   const safeContent = JSON.parse(JSON.stringify(content));
 
@@ -50,8 +50,8 @@ const base64ToFile = (base64: string, filename: string) => {
   return new File([bytes], filename, { type: mime });
 };
 export const extractImages = (content: BlogContent) => {
-  const images: File[] = [];
-  const base64Urls: string[] = [];
+  const images: Array<File> = [];
+  const base64Urls: Array<string> = [];
   const processedUrls = new Set<string>();
   let imageCounter = 0;
 
@@ -96,7 +96,7 @@ const isCloudinaryUrl = (url: string) => {
   }
 };
 export const extractImageUrls = (content: BlogContent) => {
-  const cloudinaryUrls: string[] = [];
+  const cloudinaryUrls: Array<string> = [];
   const processedUrls = new Set<string>();
 
   const processNode = (node: BlogContent) => {

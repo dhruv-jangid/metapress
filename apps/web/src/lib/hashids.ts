@@ -1,4 +1,3 @@
-import "server-only";
 import Hashids from "hashids";
 
 const hashIdSalt = process.env.HASHIDS_SALT;

@@ -1,4 +1,5 @@
 import { z } from "zod";
+
 import { emailSchema } from "../common/common.schema";
 import { nameSchema, usernameSchema } from "../user/user.schema";
 import { PASSWORD_MAX_LENGTH, PASSWORD_MIN_LENGTH } from "./auth.constants";
@@ -9,7 +10,7 @@ export const passwordSchema = z
   .max(PASSWORD_MAX_LENGTH, "Password must be under 20 characters")
   .regex(
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).+$/,
-    "Password must include uppercase, lowercase, digit, and special character"
+    "Password must include uppercase, lowercase, digit, and special character",
   );
 
 export const signupSchema = z.object({

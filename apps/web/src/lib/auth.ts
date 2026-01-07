@@ -1,31 +1,24 @@
-import "server-only";
-import {
-  resetPasswordText,
-  verificationEmailText,
-  changeEmailVerificationText,
-  deleteAccountVerificationText,
-} from "@/core/mail/mail.constants";
-import { db } from "@/db/index";
-import * as schema from "@/db/schema";
-import { nextCookies } from "better-auth/next-js";
+import { betterAuth } from "better-auth";
 import { admin, username } from "better-auth/plugins";
-import { MailService } from "@/core/mail/mail.service";
-import { usernameBFCK } from "@/core/cache/cache.keys";
-import { CacheService } from "@/core/cache/cache.service";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { APIError, createAuthMiddleware } from "better-auth/api";
-import { betterAuth, type BetterAuthOptions } from "better-auth";
+import { tanstackStartCookies } from "better-auth/tanstack-start";
+
+import type { BetterAuthOptions } from "better-auth";
+import {
+  changeEmailVerificationText,
+  deleteAccountVerificationText,
+  resetPasswordText,
+  verificationEmailText,
+} from "@/server/mail/mail.constant";
+import { db } from "@/db/index";
+import * as schema from "@/db/schema";
+import { usernameBFCK } from "@/server/cache/cache.key";
+import { MailService } from "@/server/mail/mail.service";
+import { CacheService } from "@/server/cache/cache.service";
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, { provider: "pg", schema, usePlural: true }),
-  plugins: [
-    nextCookies(),
-    username(),
-    admin({
-      bannedUserMessage: "You have been banned from MetaPress",
-      defaultBanExpiresIn: 60 * 60 * 24 * 7,
-    }),
-  ],
   appName: "MetaPress",
   account: { encryptOAuthTokens: true },
   advanced: {
@@ -35,11 +28,7 @@ export const auth = betterAuth({
   user: {
     changeEmail: {
       enabled: true,
-      sendChangeEmailVerification: async ({
-        user: { name, email },
-        url,
-        newEmail,
-      }) => {
+      sendChangeEmailVerification: async ({ user: { name, email }, url, newEmail }) => {
         await MailService.send({
           subject: "Confirm your new email address",
           to: email,
@@ -50,13 +39,9 @@ export const auth = betterAuth({
     deleteUser: {
       enabled: true,
       deleteTokenExpiresIn: 60 * 60,
-      sendDeleteAccountVerification: async ({
-        user: { name, email, createdAt },
-        url,
-      }) => {
+      sendDeleteAccountVerification: async ({ user: { name, email, createdAt }, url }) => {
         const diffInHours =
-          (new Date().getTime() - new Date(createdAt).getTime()) /
-          (1000 * 60 * 60);
+          (new Date().getTime() - new Date(createdAt).getTime()) / (1000 * 60 * 60);
         if (diffInHours < 24) {
           throw new APIError("TOO_EARLY", { message: "Try again later" });
         }
@@ -113,18 +98,19 @@ export const auth = betterAuth({
   },
   socialProviders: {
     github: {
-      clientId: process.env.GITHUB_CLIENT_ID!,
-      clientSecret: process.env.GITHUB_CLIENT_SECRET!,
-      mapProfileToUser: async ({ id }) => {
+      clientId: process.env.GITHUB_CLIENT_ID,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET,
+      mapProfileToUser: ({ id }) => {
         return {
           username: id + "_gb",
         };
       },
     },
     google: {
-      clientId: process.env.GOOGLE_CLIENT_ID!,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-      mapProfileToUser: async ({ sub }) => {
+      prompt: "select_account",
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      mapProfileToUser: ({ sub }) => {
         return {
           username: sub + "_gl",
         };
@@ -159,4 +145,12 @@ export const auth = betterAuth({
   session: { cookieCache: { enabled: true } },
   onAPIError: { throw: true },
   telemetry: { enabled: false },
+  plugins: [
+    username(),
+    admin({
+      bannedUserMessage: "You have been banned from MetaPress",
+      defaultBanExpiresIn: 60 * 60 * 24 * 7,
+    }),
+    tanstackStartCookies(),
+  ],
 } satisfies BetterAuthOptions);

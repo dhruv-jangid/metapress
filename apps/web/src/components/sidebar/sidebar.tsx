@@ -1,19 +1,12 @@
-import {
-  Sidebar as SB,
-  SidebarHeader,
-  SidebarFooter,
-  SidebarContent,
-} from "../ui/sidebar";
+import { Sidebar as SB, SidebarContent, SidebarFooter, SidebarHeader } from "../ui/sidebar";
 import { Header } from "./header";
 import { Navbar } from "./navbar";
 import { Footer } from "./footer";
-import { AuthService } from "@/core/auth/auth.service";
 
-export const Sidebar = async ({
+export const Sidebar = ({
+  user,
   ...props
-}: React.ComponentProps<typeof SB>) => {
-  const user = await AuthService.getUserSession();
-
+}: React.ComponentProps<typeof SB> & { user: UserSession | null }) => {
   return (
     <SB collapsible="icon" {...props}>
       <SidebarHeader>
@@ -21,7 +14,7 @@ export const Sidebar = async ({
       </SidebarHeader>
 
       <SidebarContent>
-        <Navbar />
+        <Navbar user={user} />
       </SidebarContent>
 
       <SidebarFooter>

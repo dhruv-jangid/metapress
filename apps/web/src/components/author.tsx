@@ -1,4 +1,5 @@
-import Link from "next/link";
+import { Link } from "@tanstack/react-router";
+
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 export const Author = ({
@@ -17,7 +18,8 @@ export const Author = ({
         <AvatarFallback>{name[0].toUpperCase() || "M"}</AvatarFallback>
       </Avatar>
       <Link
-        href={`/${username}`}
+        to="/$username"
+        params={{ username }}
         className="font-medium max-w-3xs truncate tracking-tight hover:animate-pulse"
       >
         {name}

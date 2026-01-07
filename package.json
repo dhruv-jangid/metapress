@@ -1,6 +1,6 @@
 {
   "name": "metapress",
-  "version": "2.0.2",
+  "version": "0.1.0",
   "private": true,
   "author": "dhruvjangid",
   "description": "The Pulse of Creativity",
@@ -14,19 +14,19 @@
     "build": "turbo build -F web",
     "start": "turbo start -F web",
     "check-types": "turbo check-types -F web",
-    "docker": "docker compose -f apps/web/docker-compose.yml up -d",
+    "docker": "sudo docker compose -f apps/web/docker-compose.yml up -d",
     "clean": "rm -rf apps/web/.next apps/web/.turbo apps/web/node_modules .husky/_ bun.lock .turbo node_modules",
     "in": "bun i && bun update --latest && turbo in -F web"
   },
   "dependencies": {},
   "devDependencies": {
     "husky": "^9.1.7",
-    "lint-staged": "^16.2.6",
-    "turbo": "^2.6.0",
+    "lint-staged": "^16.2.7",
+    "turbo": "^2.7.3",
     "typescript": "^5.9.3"
   },
   "lint-staged": {
     "**/*.{js,mjs,cjs,jsx,ts,mts,cts,tsx,vue,astro,svelte}": "bash -c 'bun run check-types'"
   },
-  "packageManager": "bun@1.3.1"
+  "packageManager": "bun@1.3.5"
 }

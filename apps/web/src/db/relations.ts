@@ -1,13 +1,6 @@
-import {
-  users,
-  blogs,
-  likes,
-  accounts,
-  comments,
-  sessions,
-  blogImages,
-} from "./schema";
 import { relations } from "drizzle-orm/relations";
+
+import { accounts, blogImages, blogs, comments, likes, sessions, users } from "./schema";
 
 export const usersRelations = relations(users, ({ many }) => ({
   blogs: many(blogs),

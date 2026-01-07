@@ -1,8 +1,11 @@
-import { z, type ZodError } from "zod";
+import { z } from "zod";
+import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { clsx, type ClassValue } from "clsx";
 
-export const cn = (...inputs: ClassValue[]) => {
+import type { ZodError } from "zod";
+import type { ClassValue } from "clsx";
+
+export const cn = (...inputs: Array<ClassValue>) => {
   return twMerge(clsx(inputs));
 };
 
@@ -13,3 +16,6 @@ export const getFirstZodError = (error: ZodError): string => {
 
   return fieldError || formError || "Validation Error";
 };
+
+export type Theme = "light" | "dark" | "system";
+export const THEME_COOKIE = "theme";
