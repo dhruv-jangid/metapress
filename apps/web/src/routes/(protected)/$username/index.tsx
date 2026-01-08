@@ -1,12 +1,11 @@
-import { Link, createFileRoute, notFound } from "@tanstack/react-router";
-
+import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { UserGrid } from "@/components/user-grid";
 import { Separator } from "@/components/ui/separator";
-import { usernameSchema } from "@/shared/user/user.schema";
+import { UserGrid } from "@/components/user-grid";
 import { getUserWithBlogs } from "@/server/user/user.controller";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { usernameSchema } from "@/shared/user/user.schema";
 
 export const Route = createFileRoute("/(protected)/$username/")({
   beforeLoad: ({ params }) => {
@@ -20,7 +19,7 @@ export const Route = createFileRoute("/(protected)/$username/")({
     return { user: data.user, blogs: data.blogs.blogs };
   },
   head: ({ loaderData, params }) => ({
-    meta: [{ title: `${loaderData?.user.name ?? params.username + "- Not Found"}` }],
+    meta: [{ title: `${loaderData?.user.name ?? `${params.username}- Not Found`}` }],
   }),
   component: RouteComponent,
 });

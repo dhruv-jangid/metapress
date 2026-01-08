@@ -1,17 +1,16 @@
-import { toast } from "sonner";
-import { ZodError } from "zod";
-import { useState } from "react";
+import { Eye, EyeOff, ResetPasswordIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { notFound, useRouter } from "@tanstack/react-router";
-import { Eye, EyeOff, ResetPasswordIcon } from "@hugeicons/core-free-icons";
-
+import { useState } from "react";
+import { toast } from "sonner";
+import { ZodError } from "zod";
+import { Button } from "@/components/ui/button";
+import { Field, FieldLabel } from "@/components/ui/field";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
+import { Spinner } from "@/components/ui/spinner";
 import { authClient } from "@/lib/auth-client";
 import { getFirstZodError } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Spinner } from "@/components/ui/spinner";
-import { Field, FieldLabel } from "@/components/ui/field";
 import { resetPasswordSchema } from "@/shared/auth/auth.schema";
-import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
 
 export const ResetPasswordForm = ({ token }: { token: string }) => {
   const router = useRouter();

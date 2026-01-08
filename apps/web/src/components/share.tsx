@@ -1,7 +1,6 @@
-import { toast } from "sonner";
-import { HugeiconsIcon } from "@hugeicons/react";
 import { Copy } from "@hugeicons/core-free-icons";
-
+import { HugeiconsIcon } from "@hugeicons/react";
+import { toast } from "sonner";
 import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
 

@@ -1,15 +1,14 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
-
+import { Author } from "@/components/author";
+import { Comment } from "@/components/comment";
+import { ContentViewer } from "@/components/content-viewer";
+import { EditDelete } from "@/components/edit-delete";
 import { Like } from "@/components/like";
 import { Share } from "@/components/share";
-import { Author } from "@/components/author";
 import { Badge } from "@/components/ui/badge";
-import { Comment } from "@/components/comment";
-import { EditDelete } from "@/components/edit-delete";
 import { getBlog } from "@/server/blog/blog.controller";
-import { idSchema } from "@/server/general/general.schema";
-import { ContentViewer } from "@/components/content-viewer";
 import { getComments } from "@/server/comment/comment.controller";
+import { idSchema } from "@/server/general/general.schema";
 
 export const Route = createFileRoute("/(protected)/$username/$blogid")({
   beforeLoad: ({ params, context }) => {
@@ -30,7 +29,7 @@ export const Route = createFileRoute("/(protected)/$username/$blogid")({
     };
   },
   head: ({ loaderData, params }) => ({
-    meta: [{ title: `${loaderData?.blog.title ?? params.blogid + "- Not Found"}` }],
+    meta: [{ title: `${loaderData?.blog.title ?? `${params.blogid}- Not Found`}` }],
   }),
   component: RouteComponent,
 });

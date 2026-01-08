@@ -148,7 +148,9 @@ export async function checkNudity(file: File) {
   // 1. Load Image
   const img = document.createElement("img");
   img.src = URL.createObjectURL(file);
-  await new Promise((res) => (img.onload = res));
+  await new Promise((res) => {
+    img.onload = res;
+  });
 
   // 2. Load Model
   const session = await loadModel();

@@ -1,11 +1,10 @@
 import { createServerFn } from "@tanstack/react-start";
-
-import { MailService } from "../mail/mail.service";
-import { contactMessage } from "../mail/mail.constant";
-import { MailError, handleMailError } from "../mail/mail.error";
-import { GeneralService } from "./general.service";
-import { GeneralError, handleGeneralError } from "./general.error";
 import { contactUserSchema, newsletterSchema } from "@/shared/common/common.schema";
+import { contactMessage } from "../mail/mail.constant";
+import { handleMailError, MailError } from "../mail/mail.error";
+import { MailService } from "../mail/mail.service";
+import { GeneralError, handleGeneralError } from "./general.error";
+import { GeneralService } from "./general.service";
 
 export const getBlogsFeed = createServerFn({ method: "GET" }).handler(async () => {
   try {

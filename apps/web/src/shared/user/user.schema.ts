@@ -1,5 +1,4 @@
 import { z } from "zod";
-
 import { checkProfanity } from "@/lib/profanity";
 import { restrictedUsernames } from "@/shared/user/user.constants";
 

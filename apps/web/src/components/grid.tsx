@@ -1,8 +1,7 @@
-import { Image } from "@unpic/react";
-import { Link } from "@tanstack/react-router";
-import { HugeiconsIcon } from "@hugeicons/react";
 import { ArrowUpRight } from "@hugeicons/core-free-icons";
-
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Link } from "@tanstack/react-router";
+import { Image } from "@unpic/react";
 import { Badge } from "./ui/badge";
 
 export const Grid = ({ blogs }: { blogs: Array<Blog> }) => {

@@ -1,21 +1,20 @@
+import type { BetterAuthOptions } from "better-auth";
 import { betterAuth } from "better-auth";
-import { admin, username } from "better-auth/plugins";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
 import { APIError, createAuthMiddleware } from "better-auth/api";
+import { admin, username } from "better-auth/plugins";
 import { tanstackStartCookies } from "better-auth/tanstack-start";
-
-import type { BetterAuthOptions } from "better-auth";
+import { db } from "@/db/index";
+import * as schema from "@/db/schema";
+import { usernameBFCK } from "@/server/cache/cache.key";
+import { CacheService } from "@/server/cache/cache.service";
 import {
   changeEmailVerificationText,
   deleteAccountVerificationText,
   resetPasswordText,
   verificationEmailText,
 } from "@/server/mail/mail.constant";
-import { db } from "@/db/index";
-import * as schema from "@/db/schema";
-import { usernameBFCK } from "@/server/cache/cache.key";
 import { MailService } from "@/server/mail/mail.service";
-import { CacheService } from "@/server/cache/cache.service";
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, { provider: "pg", schema, usePlural: true }),
@@ -40,8 +39,7 @@ export const auth = betterAuth({
       enabled: true,
       deleteTokenExpiresIn: 60 * 60,
       sendDeleteAccountVerification: async ({ user: { name, email, createdAt }, url }) => {
-        const diffInHours =
-          (new Date().getTime() - new Date(createdAt).getTime()) / (1000 * 60 * 60);
+        const diffInHours = (Date.now() - new Date(createdAt).getTime()) / (1000 * 60 * 60);
         if (diffInHours < 24) {
           throw new APIError("TOO_EARLY", { message: "Try again later" });
         }
@@ -102,7 +100,7 @@ export const auth = betterAuth({
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
       mapProfileToUser: ({ id }) => {
         return {
-          username: id + "_gb",
+          username: `${id}_gb`,
         };
       },
     },
@@ -112,7 +110,7 @@ export const auth = betterAuth({
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       mapProfileToUser: ({ sub }) => {
         return {
-          username: sub + "_gl",
+          username: `${sub}_gl`,
         };
       },
     },

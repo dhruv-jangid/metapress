@@ -1,13 +1,5 @@
 /// <reference types="vite/client" />
 
-interface ImportMetaEnv {
-  readonly VITE_TINYMCE_API_KEY: string;
-}
-
-interface ImportMeta {
-  readonly env: ImportMetaEnv;
-}
-
 declare global {
   namespace NodeJS {
     interface ProcessEnv {
@@ -34,6 +26,14 @@ declare global {
       readonly POSTGRES_DB: string;
       readonly NODE_ENV: "development" | "production" | "test";
     }
+  }
+
+  interface ImportMetaEnv {
+    readonly VITE_TINYMCE_API_KEY: string;
+  }
+
+  interface ImportMeta {
+    readonly env: ImportMetaEnv;
   }
 }
 

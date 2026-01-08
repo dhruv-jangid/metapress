@@ -1,3 +1,5 @@
+import { sql } from "drizzle-orm";
+import type { PgTimestampConfig } from "drizzle-orm/pg-core";
 import {
   boolean,
   foreignKey,
@@ -11,11 +13,8 @@ import {
   uniqueIndex,
   varchar,
 } from "drizzle-orm/pg-core";
-import { sql } from "drizzle-orm";
-
-import { dbDefaults } from "./defaults";
-import type { PgTimestampConfig } from "drizzle-orm/pg-core";
 import { generateSnowflake } from "@/db/snowflake";
+import { dbDefaults } from "./defaults";
 
 const {
   // Users

@@ -1,11 +1,11 @@
-import StarterKit from "@tiptap/starter-kit";
-import { Selection } from "@tiptap/extensions";
-import Youtube from "@tiptap/extension-youtube";
+import Emoji, { gitHubEmojis } from "@tiptap/extension-emoji";
 import TipTapImage from "@tiptap/extension-image";
 import TextAlign from "@tiptap/extension-text-align";
-import { EditorContent, useEditor } from "@tiptap/react";
 import { TextStyleKit } from "@tiptap/extension-text-style";
-import Emoji, { gitHubEmojis } from "@tiptap/extension-emoji";
+import Youtube from "@tiptap/extension-youtube";
+import { Selection } from "@tiptap/extensions";
+import { EditorContent, useEditor } from "@tiptap/react";
+import StarterKit from "@tiptap/starter-kit";
 
 export const ContentViewer = ({ content }: { content: BlogContent }) => {
   const editor = useEditor({

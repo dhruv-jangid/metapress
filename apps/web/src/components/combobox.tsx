@@ -1,7 +1,8 @@
-import { useState } from "react";
-import { HugeiconsIcon } from "@hugeicons/react";
 import { Check, UnfoldMoreIcon } from "@hugeicons/core-free-icons";
-
+import { HugeiconsIcon } from "@hugeicons/react";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
+import { Button } from "./ui/button";
 import {
   Command,
   CommandEmpty,
@@ -10,9 +11,7 @@ import {
   CommandItem,
   CommandList,
 } from "./ui/command";
-import { Button } from "./ui/button";
 import { Popover, PopoverContent, PopoverTrigger } from "./ui/popover";
-import { cn } from "@/lib/utils";
 
 export const Combobox = ({
   array,

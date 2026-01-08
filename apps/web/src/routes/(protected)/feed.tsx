@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-
 import { Grid } from "@/components/grid";
 import { getBlogsFeed } from "@/server/general/general.controller";
 

@@ -12,10 +12,11 @@ import {
   Sun01Icon,
   UnfoldMoreIcon,
 } from "@hugeicons/core-free-icons";
-import { useTheme } from "next-themes";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Link, useRouter } from "@tanstack/react-router";
-
+import { useTheme } from "next-themes";
+import { authClient } from "@/lib/auth-client";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -28,9 +29,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "../ui/sidebar";
-import { authClient } from "@/lib/auth-client";
 
 export const Footer = ({ user }: { user: UserSession | null }) => {
   const router = useRouter();
@@ -40,7 +39,7 @@ export const Footer = ({ user }: { user: UserSession | null }) => {
   const handleSignOut = async () => {
     try {
       const { data } = await authClient.signOut();
-      if (data && data.success) {
+      if (data?.success) {
         router.navigate({ to: "/sign-in", reloadDocument: true, replace: true });
       }
     } catch {}

@@ -1,9 +1,10 @@
+import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { createFileRoute, Link, redirect } from "@tanstack/react-router";
 import { Image } from "@unpic/react";
 import Autoplay from "embla-carousel-autoplay";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { ArrowRight01Icon } from "@hugeicons/core-free-icons";
-import { Link, createFileRoute, redirect } from "@tanstack/react-router";
-
+import { Footer } from "@/components/footer";
+import { Button } from "@/components/ui/button";
 import {
   Carousel,
   CarouselContent,
@@ -11,8 +12,6 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { Footer } from "@/components/footer";
-import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/")({
   beforeLoad: ({ context }) => {
@@ -99,7 +98,7 @@ function RouteComponent() {
                 <br />
                 Connect.
                 <br />
-                <span className="text-primary italic font-serif selection:bg-foreground!">
+                <span className="text-primary italic font-serif selection:bg-foreground! selection:text-primary!">
                   Inspire.
                 </span>
               </h1>
@@ -112,7 +111,7 @@ function RouteComponent() {
               <Link to="/sign-up">
                 <Button
                   size="lg"
-                  className="h-14 px-6 bg-foreground text-base hover:scale-105 duration-300"
+                  className="h-14 px-6 bg-foreground text-background text-base hover:scale-105 hover:text-primary-foreground duration-300"
                 >
                   Start Reading
                   <HugeiconsIcon icon={ArrowRight01Icon} />
@@ -151,9 +150,9 @@ function RouteComponent() {
             className="w-full"
           >
             <CarouselContent className="-ml-4 md:-ml-8">
-              {featuredStories.map((story, index) => (
+              {featuredStories.map((story) => (
                 <CarouselItem
-                  key={index}
+                  key={story.title}
                   className="pl-4 md:pl-8 md:basis-1/2 lg:basis-1/3 xl:basis-1/4"
                 >
                   <div className="group cursor-pointer space-y-4">

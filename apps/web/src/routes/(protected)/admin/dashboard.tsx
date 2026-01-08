@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-
 import { Author } from "@/components/author";
 import { DeleteUser } from "@/components/delete-user";
 

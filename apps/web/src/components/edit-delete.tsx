@@ -1,12 +1,11 @@
-import { toast } from "sonner";
+import { PencilLine, Trash2 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { useRouter } from "@tanstack/react-router";
-import { PencilLine, Trash2 } from "@hugeicons/core-free-icons";
-
-import { Button } from "./ui/button";
-import { useAlertDialog } from "./providers/alert-provider";
+import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { deleteBlog } from "@/server/blog/blog.controller";
+import { useAlertDialog } from "./providers/alert-provider";
+import { Button } from "./ui/button";
 
 export const EditDelete = ({
   blogId,

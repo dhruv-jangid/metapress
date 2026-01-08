@@ -1,17 +1,16 @@
-import { toast } from "sonner";
-import { ZodError } from "zod";
-import { useEffect, useState } from "react";
+import { Mail01Icon, SentIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { useRouter } from "@tanstack/react-router";
-import { Mail01Icon, SentIcon } from "@hugeicons/core-free-icons";
-
+import { useEffect, useState } from "react";
+import { toast } from "sonner";
+import { ZodError } from "zod";
+import { Button } from "@/components/ui/button";
+import { Field, FieldLabel } from "@/components/ui/field";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
+import { Spinner } from "@/components/ui/spinner";
 import { authClient } from "@/lib/auth-client";
 import { getFirstZodError } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Spinner } from "@/components/ui/spinner";
-import { Field, FieldLabel } from "@/components/ui/field";
 import { forgetPasswordSchema } from "@/shared/auth/auth.schema";
-import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group";
 
 export const ForgetPasswordForm = () => {
   const router = useRouter();
@@ -29,7 +28,7 @@ export const ForgetPasswordForm = () => {
     window.addEventListener("storage", handleStorageChange);
 
     return () => window.removeEventListener("storage", handleStorageChange);
-  }, []);
+  }, [router]);
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

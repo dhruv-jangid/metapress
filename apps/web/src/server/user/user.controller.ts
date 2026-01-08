@@ -1,9 +1,8 @@
 import { createServerFn } from "@tanstack/react-start";
-
-import { UserService } from "./user.service";
-import { UserError, handleUserError } from "./user.error";
 import { authMiddleware } from "@/middleware/auth";
 import { usernameSchema } from "@/shared/user/user.schema";
+import { handleUserError, UserError } from "./user.error";
+import { UserService } from "./user.service";
 
 export const getUserWithBlogs = createServerFn({ method: "GET" })
   .middleware([authMiddleware])

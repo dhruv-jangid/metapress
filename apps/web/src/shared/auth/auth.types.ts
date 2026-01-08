@@ -5,5 +5,3 @@ declare global {
 
   type OAuth = "google" | "github";
 }
-
-export {};

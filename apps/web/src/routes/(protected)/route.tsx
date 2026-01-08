@@ -1,5 +1,4 @@
-import { Outlet, createFileRoute, redirect } from "@tanstack/react-router";
-
+import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
 import { Footer } from "@/components/footer";
 import { Sidebar } from "@/components/sidebar/sidebar";
 import { SidebarTrigger } from "@/components/ui/sidebar";

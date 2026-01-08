@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-
 import { Grid } from "@/components/grid";
 import { Separator } from "@/components/ui/separator";
 import { VerticalList } from "@/components/vertical-list";

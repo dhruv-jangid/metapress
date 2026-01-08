@@ -1,10 +1,9 @@
 import { createServerFn } from "@tanstack/react-start";
-
+import { authMiddleware } from "@/middleware/auth";
 import { idSchema } from "../general/general.schema";
-import { CommentService } from "./comment.service";
 import { CommentError, handleCommentError } from "./comment.error";
 import { createCommentSchema, deleteCommentSchema } from "./comment.schema";
-import { authMiddleware } from "@/middleware/auth";
+import { CommentService } from "./comment.service";
 
 export const getComments = createServerFn({ method: "GET" })
   .middleware([authMiddleware])

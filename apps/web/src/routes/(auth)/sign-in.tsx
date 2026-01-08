@@ -1,7 +1,6 @@
-import { z } from "zod";
-import { Image } from "@unpic/react";
 import { createFileRoute } from "@tanstack/react-router";
-
+import { Image } from "@unpic/react";
+import { z } from "zod";
 import { SigninForm } from "./-components/sign-in-form";
 
 export const Route = createFileRoute("/(auth)/sign-in")({

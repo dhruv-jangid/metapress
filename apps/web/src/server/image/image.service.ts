@@ -1,5 +1,4 @@
 import { v2 as cloudinary } from "cloudinary";
-
 import { ImageError } from "./image.error";
 
 const cloud_name = process.env.CLOUDINARY_CLOUD_NAME;

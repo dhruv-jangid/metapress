@@ -1,6 +1,5 @@
-import { z } from "zod";
 import { createFileRoute } from "@tanstack/react-router";
-
+import { z } from "zod";
 import { ResetPasswordForm } from "./-components/reset-pass-form";
 
 export const Route = createFileRoute("/(auth)/reset-password")({

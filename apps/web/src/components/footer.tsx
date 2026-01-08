@@ -1,21 +1,20 @@
 import {
   ArrowUpRight,
-  CustomerService01Icon,
   Github01Icon,
   MailAdd01Icon,
+  MessageMultiple01Icon,
   QuillWrite01Icon,
 } from "@hugeicons/core-free-icons";
-import { Image } from "@unpic/react";
-import { Link } from "@tanstack/react-router";
 import { HugeiconsIcon } from "@hugeicons/react";
-
-import { Input } from "./ui/input";
+import { Link } from "@tanstack/react-router";
+import { Image } from "@unpic/react";
 import { Button } from "./ui/button";
+import { Input } from "./ui/input";
 import { Separator } from "./ui/separator";
 
 export const Footer = () => {
   return (
-    <footer className="p-6 md:p-8 flex flex-col gap-12 border-t border-dashed">
+    <footer className="p-4 md:p-8 flex flex-col gap-12 border-t border-dashed">
       <div className="flex flex-col xl:flex-row justify-between p-4 bg-foreground rounded-4xl h-auto xl:h-132 text-background selection:bg-background selection:text-foreground">
         <div className="p-2 xl:p-4 space-y-4">
           <div className="tracking-tighter">START A NEW JOURNEY</div>
@@ -23,9 +22,9 @@ export const Footer = () => {
             <div>Interested in working with us?</div>
             <div>Start a conversation now.</div>
           </div>
-          <Link to="/contact">
+          <Link to="/contact" target="_blank">
             <Button>
-              <HugeiconsIcon icon={CustomerService01Icon} />
+              <HugeiconsIcon icon={MessageMultiple01Icon} />
               Contact Us
             </Button>
           </Link>

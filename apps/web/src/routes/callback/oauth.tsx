@@ -1,5 +1,4 @@
 import { createFileRoute, useRouter } from "@tanstack/react-router";
-
 import { useEffect } from "react";
 import { authClient } from "@/lib/auth-client";
 
@@ -25,7 +24,7 @@ function RouteComponent() {
         } else {
           router.navigate({ to: "/browse", replace: true });
         }
-      } catch (error) {
+      } catch {
         if (window.opener) {
           window.opener.postMessage(
             { type: "oauth-error", message: "Something went wrong" },
@@ -38,7 +37,7 @@ function RouteComponent() {
     };
 
     handleCallback();
-  }, []);
+  }, [router]);
 
   return (
     <div className="flex h-dvh items-center justify-center w-full bg-white font-mono">

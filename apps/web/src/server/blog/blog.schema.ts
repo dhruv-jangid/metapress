@@ -1,7 +1,6 @@
 import { z } from "zod";
-
-import { idSchema } from "../general/general.schema";
 import { categorySchema, contentSchema, imageSchema, titleSchema } from "@/shared/blog/blog.schema";
+import { idSchema } from "../general/general.schema";
 
 export const createBlogSchema = z.object({
   title: titleSchema,

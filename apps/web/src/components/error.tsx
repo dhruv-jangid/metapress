@@ -1,8 +1,7 @@
 import { Link } from "@tanstack/react-router";
-
 import { Button } from "./ui/button";
 
-export const Error = () => {
+export const ErrorComponent = () => {
   return (
     <div className="h-dvh w-full overflow-hidden">
       <div className="h-1/4 grid grid-cols-3 w-full ml-8 items-end">

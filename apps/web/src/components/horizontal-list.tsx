@@ -1,8 +1,7 @@
 import { Image } from "@unpic/react";
 import Autoplay from "embla-carousel-autoplay";
-
-import { Carousel, CarouselContent, CarouselItem } from "./ui/carousel";
 import { cn } from "@/lib/utils";
+import { Carousel, CarouselContent, CarouselItem } from "./ui/carousel";
 
 export const HorizontalList = ({
   data,
@@ -20,7 +19,7 @@ export const HorizontalList = ({
       <CarouselContent>
         {data.map(({ image, title, tag, content }, i) => (
           <CarouselItem
-            key={i}
+            key={title}
             className={cn(
               imageOnly
                 ? "basis-1/2 md:basis-[calc(1/2.5*100%)] xl:basis-[calc(1/3.5*100%)] 2xl:basis-1/5"

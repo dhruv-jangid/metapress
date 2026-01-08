@@ -1,17 +1,11 @@
-import {
-  RegExpMatcher,
-  englishDataset,
-  englishRecommendedTransformers,
-} from "obscenity";
+import { englishDataset, englishRecommendedTransformers, RegExpMatcher } from "obscenity";
 
 export const checkProfanity = (text: string) => {
   if (matcher.hasMatch(text)) {
     return true;
   }
 
-  return hindiGujaratiHinglish.some((word) =>
-    text.toLowerCase().includes(word)
-  );
+  return hindiGujaratiHinglish.some((word) => text.toLowerCase().includes(word));
 };
 
 const matcher = new RegExpMatcher({

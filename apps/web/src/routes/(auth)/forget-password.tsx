@@ -1,5 +1,4 @@
 import { createFileRoute } from "@tanstack/react-router";
-
 import { ForgetPasswordForm } from "./-components/forget-pass-form";
 
 export const Route = createFileRoute("/(auth)/forget-password")({

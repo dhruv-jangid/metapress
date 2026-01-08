@@ -1,5 +1,4 @@
 import { Link } from "@tanstack/react-router";
-
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 
 export const Author = ({
@@ -19,7 +18,9 @@ export const Author = ({
       </Avatar>
       <Link
         to="/$username"
-        params={{ username }}
+        params={{
+          username,
+        }}
         className="font-medium max-w-3xs truncate tracking-tight hover:animate-pulse"
       >
         {name}

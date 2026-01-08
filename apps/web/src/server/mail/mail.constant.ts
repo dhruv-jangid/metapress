@@ -44,13 +44,7 @@ If you did NOT request this, please ignore this email. No further action is need
 For your security, do not share this email or the confirmation link with anyone.`;
 };
 
-export const resetPasswordText = ({
-  name,
-  url,
-}: {
-  name: string;
-  url: string;
-}): string => {
+export const resetPasswordText = ({ name, url }: { name: string; url: string }): string => {
   return `Hey ${name},
 
 We received a request to reset the password for your MetaPress account.
@@ -66,13 +60,7 @@ If you did NOT request a password reset, please ignore this email. Your account 
 For your security, do not share this email or the reset link with anyone.`;
 };
 
-export const verificationEmailText = ({
-  name,
-  url,
-}: {
-  name: string;
-  url: string;
-}): string => {
+export const verificationEmailText = ({ name, url }: { name: string; url: string }): string => {
   return `Hey ${name},
 
 Welcome to MetaPress! Please verify your email address to activate your account.

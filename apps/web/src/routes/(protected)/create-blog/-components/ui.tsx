@@ -1,11 +1,14 @@
-import pLimit from "p-limit";
-import { toast } from "sonner";
-import { ZodError } from "zod";
-import { useState } from "react";
+import { Fullscreen, Upload } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { useRouter } from "@tanstack/react-router";
-import { Fullscreen, Upload } from "@hugeicons/core-free-icons";
-
+import pLimit from "p-limit";
+import { useState } from "react";
+import { toast } from "sonner";
+import { ZodError } from "zod";
+import { Combobox } from "@/components/combobox";
+import { ContentEditor } from "@/components/content-editor";
+import { ContentViewer } from "@/components/content-viewer";
+import { Button } from "@/components/ui/button";
 import {
   Drawer,
   DrawerClose,
@@ -16,20 +19,16 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "@/components/ui/drawer";
-import { getFirstZodError } from "@/lib/utils";
-import { Button } from "@/components/ui/button";
-import { Combobox } from "@/components/combobox";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
+import { extractImages, replaceImageUrls } from "@/lib/content/utils";
 import { checkNudity } from "@/lib/image/check-nudity";
 import { uploadImage } from "@/lib/image/upload-image";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { getFirstZodError } from "@/lib/utils";
 import { createBlog } from "@/server/blog/blog.controller";
-import { ContentEditor } from "@/components/content-editor";
-import { ContentViewer } from "@/components/content-viewer";
-import { blogCategories } from "@/shared/blog/blog.constants";
 import { deleteImages } from "@/server/image/image.controller";
+import { blogCategories } from "@/shared/blog/blog.constants";
 import { createBlogClientSchema } from "@/shared/blog/blog.schema";
-import { extractImages, replaceImageUrls } from "@/lib/content/utils";
 
 export const CreateBlogUI = ({ username }: { username: string }) => {
   const [blog, setBlog] = useState<{

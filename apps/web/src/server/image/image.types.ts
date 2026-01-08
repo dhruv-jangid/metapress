@@ -26,5 +26,3 @@ declare global {
 
   type DeleteManyImages = z.infer<typeof DeleteImagesSchema>;
 }
-
-export {};

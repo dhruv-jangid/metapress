@@ -1,8 +1,7 @@
-import { toast } from "sonner";
 import { useRouter } from "@tanstack/react-router";
-
-import { Button } from "./ui/button";
+import { toast } from "sonner";
 import { authClient } from "@/lib/auth-client";
+import { Button } from "./ui/button";
 
 export const Logout = () => {
   const router = useRouter();

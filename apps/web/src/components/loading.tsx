@@ -1,4 +1,4 @@
-export const Loading = () => {
+export const LoadingComponent = () => {
   return (
     <div className="min-h-dvh flex flex-col items-center gap-20 p-2 overflow-hidden w-full">
       <div className="grid grid-cols-2 md:grid-cols-3 gap-y-28 md:gap-y-56 text-muted-foreground/50 text-sm self-start w-full">

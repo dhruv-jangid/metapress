@@ -1,15 +1,12 @@
 import { Link } from "@tanstack/react-router";
 
-export const NotFound = () => {
+export const NotFoundComponent = () => {
   return (
     <div className="h-dvh w-full overflow-hidden">
       <div className="h-1/4 grid grid-cols-3 w-full ml-8 items-end">
         {Array.from({ length: 6 }).map((_, i) => {
           return (
-            <span
-              key={i}
-              className="tracking-tighter text-sm text-muted-foreground"
-            >
+            <span key={i} className="tracking-tighter text-sm text-muted-foreground">
               NOT FOUND
             </span>
           );
@@ -27,16 +24,13 @@ export const NotFound = () => {
         </div>
 
         <div className="text-2xl lg:text-xl xl:text-5xl text-muted-foreground mt-24 tracking-tight">
-          YOU DIDN&apos;T DESTROY ANY INJECTION MOULDS, BUT IT LOOKS LIKE
-          YOU&apos;RE LOST. DON&apos;T WORRY. YOU CAN HEAD OVER TO THE{" "}
+          YOU DIDN&apos;T DESTROY ANY INJECTION MOULDS, BUT IT LOOKS LIKE YOU&apos;RE LOST.
+          DON&apos;T WORRY. YOU CAN HEAD OVER TO THE{" "}
           <Link to="/" className="underline text-foreground underline-offset-4">
             HOMEPAGE
           </Link>{" "}
           OR TO THE{" "}
-          <Link
-            to="/contact"
-            className="underline text-foreground underline-offset-4"
-          >
+          <Link to="/contact" className="underline text-foreground underline-offset-4">
             CONTACT
           </Link>{" "}
           PAGE IF YOU HAVEN&apos;T HAD ENOUGH. A LAB EXPERIMENT IN, FOR SURE.

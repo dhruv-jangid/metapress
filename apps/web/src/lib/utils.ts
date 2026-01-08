@@ -1,9 +1,8 @@
-import { z } from "zod";
+import type { ClassValue } from "clsx";
 import { clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
-
 import type { ZodError } from "zod";
-import type { ClassValue } from "clsx";
+import { z } from "zod";
 
 export const cn = (...inputs: Array<ClassValue>) => {
   return twMerge(clsx(inputs));

@@ -1,6 +1,5 @@
-import type { z } from "zod";
 import type { JSONContent } from "@tiptap/react";
-
+import type { z } from "zod";
 import type { blogSchema } from "../blog/blog.schema";
 import type { commentSchema, contactUserSchema, newsletterSchema } from "./common.schema";
 
@@ -13,5 +12,3 @@ declare global {
 
   type SubscribeNewsLetter = z.infer<typeof newsletterSchema>;
 }
-
-export {};

@@ -1,10 +1,5 @@
 export const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
-export const ALLOWED_IMAGE_TYPES = [
-  "image/jpeg",
-  "image/png",
-  "image/jpg",
-  "image/heic",
-];
+export const ALLOWED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/jpg", "image/heic"];
 
 export const blogCategories = [
   "Agriculture",

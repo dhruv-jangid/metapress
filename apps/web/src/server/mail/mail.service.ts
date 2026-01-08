@@ -1,5 +1,4 @@
 import { createTransport } from "nodemailer";
-
 import { MailError } from "./mail.error";
 
 const user = process.env.EMAIL_USER;

@@ -1,11 +1,10 @@
-import { Image } from "@unpic/react";
+import { MessageMultiple01Icon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Link, createFileRoute } from "@tanstack/react-router";
-import { CustomerService01Icon } from "@hugeicons/core-free-icons";
-
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Image } from "@unpic/react";
+import { HorizontalList } from "@/components/horizontal-list";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { HorizontalList } from "@/components/horizontal-list";
 
 export const Route = createFileRoute("/about")({
   head: () => ({
@@ -132,7 +131,7 @@ function RouteComponent() {
           </div>
           <Link to="/contact" className="w-max">
             <Button size="lg">
-              <HugeiconsIcon icon={CustomerService01Icon} />
+              <HugeiconsIcon icon={MessageMultiple01Icon} />
               Contact Us
             </Button>
           </Link>

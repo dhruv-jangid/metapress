@@ -1,5 +1,4 @@
 import type { z } from "zod";
-
 import type {
   createBlogSchema,
   deleteBlogSchema,
@@ -34,5 +33,3 @@ declare global {
   type UnlikeBlogInput = z.infer<typeof unlikeBlogSchema>;
   type UnlikeBlog = UnlikeBlogInput & { userId: string };
 }
-
-export {};

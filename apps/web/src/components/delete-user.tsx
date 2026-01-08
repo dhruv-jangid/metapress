@@ -1,11 +1,10 @@
-import { toast } from "sonner";
-import { useState } from "react";
-import { HugeiconsIcon } from "@hugeicons/react";
 import { Trash2 } from "@hugeicons/core-free-icons";
-
-import { Button } from "./ui/button";
-import { useAlertDialog } from "./providers/alert-provider";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { useState } from "react";
+import { toast } from "sonner";
 import { authClient } from "@/lib/auth-client";
+import { useAlertDialog } from "./providers/alert-provider";
+import { Button } from "./ui/button";
 
 export const DeleteUser = ({ userId }: { userId: string }) => {
   const { show } = useAlertDialog();

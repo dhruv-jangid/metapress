@@ -1,7 +1,6 @@
 import { createFileRoute, notFound } from "@tanstack/react-router";
-
-import { EditBlogUI } from "./-components/ui";
 import { getBlog } from "@/server/blog/blog.controller";
+import { EditBlogUI } from "./-components/ui";
 
 export const Route = createFileRoute("/(protected)/edit-blog/$blogid")({
   loader: async ({ params: { blogid }, context }) => {

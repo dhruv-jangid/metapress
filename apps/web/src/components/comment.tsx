@@ -1,16 +1,15 @@
+import { MessageSquareText, Trash2 } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { Link } from "@tanstack/react-router";
+import { useState } from "react";
 import { toast } from "sonner";
 import { ZodError } from "zod";
-import { useState } from "react";
-import { Link } from "@tanstack/react-router";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { MessageSquareText, Trash2 } from "@hugeicons/core-free-icons";
-
-import { Button } from "./ui/button";
-import { Textarea } from "./ui/textarea";
-import { useAlertDialog } from "./providers/alert-provider";
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { getFirstZodError } from "@/lib/utils";
 import { createComment, deleteComment } from "@/server/comment/comment.controller";
+import { useAlertDialog } from "./providers/alert-provider";
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
+import { Button } from "./ui/button";
+import { Textarea } from "./ui/textarea";
 
 export const Comment = ({
   blogId,

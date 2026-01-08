@@ -1,6 +1,5 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@import "shadcn/tailwind.css";
 @import "@fontsource/bricolage-grotesque";
 @import "tailwindcss/preflight.css" layer(base);
 
@@ -127,6 +126,6 @@
   }
 
   body {
-    @apply bg-background text-foreground font-sans antialiased m-0;
+    @apply bg-background text-foreground font-sans antialiased m-0 scroll-smooth;
   }
 }

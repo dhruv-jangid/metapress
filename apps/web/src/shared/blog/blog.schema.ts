@@ -1,8 +1,7 @@
 import { z } from "zod";
-
-import { nameSchema, usernameSchema } from "../user/user.schema";
-import { ALLOWED_IMAGE_TYPES, MAX_IMAGE_SIZE, blogCategories } from "./blog.constants";
 import { checkProfanity } from "@/lib/profanity";
+import { nameSchema, usernameSchema } from "../user/user.schema";
+import { ALLOWED_IMAGE_TYPES, blogCategories, MAX_IMAGE_SIZE } from "./blog.constants";
 
 export const titleSchema = z
   .string()

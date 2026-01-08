@@ -1,7 +1,7 @@
 import { Sidebar as SB, SidebarContent, SidebarFooter, SidebarHeader } from "../ui/sidebar";
+import { Footer } from "./footer";
 import { Header } from "./header";
 import { Navbar } from "./navbar";
-import { Footer } from "./footer";
 
 export const Sidebar = ({
   user,

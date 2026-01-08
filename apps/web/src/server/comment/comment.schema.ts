@@ -1,7 +1,6 @@
 import { z } from "zod";
-
-import { idSchema } from "../general/general.schema";
 import { commentContentSchema } from "@/shared/common/common.schema";
+import { idSchema } from "../general/general.schema";
 
 export const createCommentSchema = z.object({
   blogId: idSchema,

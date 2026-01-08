@@ -1,16 +1,15 @@
+import { Mail01Icon, SentIcon } from "@hugeicons/core-free-icons";
+import { HugeiconsIcon } from "@hugeicons/react";
+import { useState } from "react";
 import { toast } from "sonner";
 import { ZodError } from "zod";
-import { useState } from "react";
-import { HugeiconsIcon } from "@hugeicons/react";
-import { Mail01Icon, SentIcon } from "@hugeicons/core-free-icons";
-
-import { Button } from "./ui/button";
-import { Spinner } from "./ui/spinner";
-import { Field, FieldLabel } from "./ui/field";
-import { InputGroup, InputGroupAddon, InputGroupInput } from "./ui/input-group";
 import { getFirstZodError } from "@/lib/utils";
 import { contactUser } from "@/server/general/general.controller";
 import { contactUserSchema } from "@/shared/common/common.schema";
+import { Button } from "./ui/button";
+import { Field, FieldLabel } from "./ui/field";
+import { InputGroup, InputGroupAddon, InputGroupInput } from "./ui/input-group";
+import { Spinner } from "./ui/spinner";
 
 export const ContactForm = () => {
   const [loading, setLoading] = useState(false);

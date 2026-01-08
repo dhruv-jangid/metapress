@@ -1,10 +1,10 @@
-import { CacheService } from "../cache/cache.service";
-import { COMMENTS_TTL, COMMENT_TTL } from "../cache/cache.ttl";
-import { blogCommentsCK, blogCommentsMetaCK, commentCK } from "../cache/cache.key";
-import { CommentError } from "./comment.error";
-import { CommentRepository } from "./comment.repository";
 import { decodeId } from "@/lib/hashids";
 import { isUniqueViolation } from "@/shared/errors/unique-violation";
+import { blogCommentsCK, blogCommentsMetaCK, commentCK } from "../cache/cache.key";
+import { CacheService } from "../cache/cache.service";
+import { COMMENT_TTL, COMMENTS_TTL } from "../cache/cache.ttl";
+import { CommentError } from "./comment.error";
+import { CommentRepository } from "./comment.repository";
 
 const PAGE_SIZE = 10;
 
@@ -61,14 +61,22 @@ export class CommentService {
       }
     } catch {}
 
-    let comments, nextCursor;
+    let comments: Array<{
+        id: string;
+        content: string;
+        createdAt: string;
+        authorName: string;
+        authorUsername: string;
+        authorImage: string | null;
+      }>,
+      nextCursor: string | null;
     try {
       ({ comments, nextCursor } = await CommentRepository.findManyByBlogId(
         blogId,
         pageSize,
         cursor,
       ));
-    } catch (error) {
+    } catch {
       throw new CommentError("NOT_FOUND", "Comments not found");
     }
 
@@ -114,7 +122,14 @@ export class CommentService {
       throw new CommentError("NOT_FOUND", "Invalid BlogID");
     }
 
-    let comment;
+    let comment: {
+      id: string;
+      content: string;
+      createdAt: string;
+      authorName: string;
+      authorUsername: string;
+      authorImage: string | null;
+    };
     try {
       comment = await CommentRepository.create({
         blogId,

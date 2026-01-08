@@ -1,18 +1,18 @@
 import { createRouter } from "@tanstack/react-router";
-
-import { Error } from "./components/error";
+import { ErrorComponent } from "./components/error";
+import { LoadingComponent } from "./components/loading";
+import { NotFoundComponent } from "./components/not-found";
 import { routeTree } from "./routeTree.gen";
-import { Loading } from "./components/loading";
-import { NotFound } from "./components/not-found";
 
 export const getRouter = () => {
   const router = createRouter({
     routeTree,
     scrollRestoration: true,
-    defaultPreloadStaleTime: 0,
-    defaultErrorComponent: Error,
-    defaultNotFoundComponent: NotFound,
-    defaultPendingComponent: Loading,
+    defaultStaleTime: 1000 * 60 * 60 * 24,
+    defaultGcTime: 1000 * 60 * 60 * 24,
+    defaultErrorComponent: ErrorComponent,
+    defaultNotFoundComponent: NotFoundComponent,
+    defaultPendingComponent: LoadingComponent,
   });
 
   return router;

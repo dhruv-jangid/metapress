@@ -1,5 +1,4 @@
 import { ThemeProvider } from "next-themes";
-
 import { SidebarProvider } from "../ui/sidebar";
 import { AlertProvider } from "./alert-provider";
 

@@ -1,3 +1,5 @@
+import { encodeId } from "@/lib/hashids";
+import { BlogRepository } from "../blog/blog.repository";
 import {
   blogCK,
   userBlogsCK,
@@ -8,11 +10,9 @@ import {
   usernameBFCK,
 } from "../cache/cache.key";
 import { CacheService } from "../cache/cache.service";
-import { BlogRepository } from "../blog/blog.repository";
 import { BLOG_TTL, USER_BLOGS_TTL, USER_LIKED_BLOGS_TTL, USER_TTL } from "../cache/cache.ttl";
 import { UserError } from "./user.error";
 import { UserRepository } from "./user.repository";
-import { encodeId } from "@/lib/hashids";
 
 const PAGE_SIZE = 10;
 
@@ -37,7 +37,7 @@ export class UserService {
       }
     } catch {}
 
-    let user;
+    let user: User | null;
     try {
       user = await UserRepository.findByUsername(username);
     } catch (error) {
@@ -135,7 +135,7 @@ export class UserService {
       }
     } catch {}
 
-    let dbBlogs, nextCursor;
+    let dbBlogs: Array<Blog>, nextCursor: string | null;
     try {
       const temp = await BlogRepository.findManyByUserId(userId, pageSize, cursor);
       dbBlogs = temp.blogs;
@@ -247,7 +247,7 @@ export class UserService {
       }
     } catch {}
 
-    let dbBlogs, nextCursor;
+    let dbBlogs: Array<Blog & { likedAt: string }>, nextCursor: string | null;
     try {
       const temp = await BlogRepository.findManyLikedByUserId(userId, pageSize, cursor);
       dbBlogs = temp.blogs;

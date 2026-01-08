@@ -10,20 +10,19 @@ import {
   Underline as UnderlineIcon,
   Undo2,
 } from "@hugeicons/core-free-icons";
-import { toast } from "sonner";
-import StarterKit from "@tiptap/starter-kit";
-import Youtube from "@tiptap/extension-youtube";
-import { BubbleMenu } from "@tiptap/react/menus";
+import type { IconSvgElement } from "@hugeicons/react";
 import { HugeiconsIcon } from "@hugeicons/react";
+import Emoji, { gitHubEmojis } from "@tiptap/extension-emoji";
 import TipTapImage from "@tiptap/extension-image";
 import TextAlign from "@tiptap/extension-text-align";
-import { EditorContent, useEditor } from "@tiptap/react";
 import { TextStyleKit } from "@tiptap/extension-text-style";
-import Emoji, { gitHubEmojis } from "@tiptap/extension-emoji";
+import Youtube from "@tiptap/extension-youtube";
 import { CharacterCount, Placeholder, Selection } from "@tiptap/extensions";
-
-import type { IconSvgElement } from "@hugeicons/react";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { EditorContent, useEditor } from "@tiptap/react";
+import { BubbleMenu } from "@tiptap/react/menus";
+import StarterKit from "@tiptap/starter-kit";
+import { toast } from "sonner";
+import { ScrollArea } from "./ui/scroll-area";
 
 export const ContentEditor = ({
   content,
@@ -102,7 +101,7 @@ export const ContentEditor = ({
       <BubbleMenu
         editor={editor}
         options={{ offset: 10, placement: "top" }}
-        className="flex overflow-hidden bg-primary-foreground outline shadow-lg rounded-lg"
+        className="flex overflow-hidden bg-accent outline shadow-lg rounded-lg"
       >
         <MenuButton
           onClick={() => editor.chain().focus().toggleBold().run()}
@@ -124,7 +123,7 @@ export const ContentEditor = ({
         />
       </BubbleMenu>
 
-      <div className="outline bg-primary-foreground rounded-lg rounded-br-none overflow-hidden">
+      <div className="outline rounded-lg rounded-br-none overflow-hidden">
         <div className="flex outline">
           <MenuButton
             onClick={() => editor.chain().focus().undo().run()}
@@ -149,8 +148,8 @@ export const ContentEditor = ({
                   .run()
               }
               className={`px-4 py-2.5 outline cursor-pointer transition-all duration-200 ${
-                editor.isActive("heading", { level }) &&
-                "bg-muted-foreground text-primary-foreground"
+                editor.isActive("heading", { level })
+                && "bg-muted-foreground text-primary-foreground"
               }`}
             >
               H{level}

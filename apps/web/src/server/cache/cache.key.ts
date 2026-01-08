@@ -1,12 +1,10 @@
 export const blogCK = (blogId: string) => `blog:${blogId}`;
 export const commentCK = (blogId: string) => `comment:${blogId}`;
 
-export const blogLikesCountCK = (blogId: string) =>
-  `blog:${blogId}:likes:count`;
+export const blogLikesCountCK = (blogId: string) => `blog:${blogId}:likes:count`;
 export const blogLikesCK = (blogId: string) => `blog:${blogId}:likes`;
 export const blogCommentsCK = (blogId: string) => `blog:${blogId}:comments`;
-export const blogCommentsMetaCK = (blogId: string) =>
-  `blog:${blogId}:comments:meta`;
+export const blogCommentsMetaCK = (blogId: string) => `blog:${blogId}:comments:meta`;
 
 export const usernameBFCK = "usernames";
 export const userCK = (username: string) => `user:${username}`;

@@ -1,7 +1,7 @@
+import { Book02Icon, Home09Icon, Login01Icon, PenTool03Icon } from "@hugeicons/core-free-icons";
+import type { IconSvgElement } from "@hugeicons/react";
 import { HugeiconsIcon } from "@hugeicons/react";
 import { Link, useLocation } from "@tanstack/react-router";
-import { Book02Icon, Home09Icon, Login01Icon, PenTool03Icon } from "@hugeicons/core-free-icons";
-
 import {
   SidebarGroup,
   SidebarGroupLabel,
@@ -9,7 +9,6 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "../ui/sidebar";
-import type { IconSvgElement } from "@hugeicons/react";
 
 const navLinks: Array<{ title: string; url: string; icon: IconSvgElement }> = [
   {

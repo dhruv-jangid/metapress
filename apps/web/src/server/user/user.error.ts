@@ -1,5 +1,4 @@
 import { notFound } from "@tanstack/react-router";
-
 import { DomainError } from "@/shared/errors/domain-error";
 
 type UserErrorCode = "NOT_FOUND" | "FETCH_FAILED";
