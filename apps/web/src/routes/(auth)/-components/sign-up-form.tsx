@@ -12,7 +12,7 @@ import {
   UserIcon,
 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Link, useRouter } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
 import { ZodError } from "zod";
@@ -38,7 +38,7 @@ export const SignupForm = () => {
     google: false,
     github: false,
   });
-  const router = useRouter();
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
   const disabled = Object.values(loading).some(Boolean);
@@ -128,7 +128,7 @@ export const SignupForm = () => {
           window.removeEventListener("message", handleMessage);
           popup.close();
           setLoading((prev) => ({ ...prev, [provider]: false }));
-          router.navigate({ to: "/browse", replace: true });
+          navigate({ to: "/browse", replace: true });
         } else if (event.data.type === "oauth-error") {
           window.removeEventListener("message", handleMessage);
           popup.close();

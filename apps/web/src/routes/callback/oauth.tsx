@@ -1,4 +1,4 @@
-import { createFileRoute, useRouter } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { authClient } from "@/lib/auth-client";
 
@@ -7,7 +7,7 @@ export const Route = createFileRoute("/callback/oauth")({
 });
 
 function RouteComponent() {
-  const router = useRouter();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleCallback = async () => {
@@ -22,7 +22,7 @@ function RouteComponent() {
             window.location.origin,
           );
         } else {
-          router.navigate({ to: "/browse", replace: true });
+          navigate({ to: "/browse", replace: true });
         }
       } catch {
         if (window.opener) {
@@ -31,13 +31,13 @@ function RouteComponent() {
             window.location.origin,
           );
         } else {
-          router.navigate({ to: "/sign-in", replace: true });
+          navigate({ to: "/sign-in", replace: true });
         }
       }
     };
 
     handleCallback();
-  }, [router]);
+  }, []);
 
   return (
     <div className="flex h-dvh items-center justify-center w-full bg-white font-mono">

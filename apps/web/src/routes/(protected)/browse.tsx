@@ -27,7 +27,9 @@ function RouteComponent() {
                 <span>S</span>
                 <span className="inline-flex flex-col text-2xl lg:text-3xl leading-5 lg:leading-6">
                   <span className="tracking-tight w-max">Latest News </span>
-                  <span className="ml-10 tracking-tight w-max">and updates</span>
+                  <span className="ml-10 tracking-tight w-max">
+                    and updates
+                  </span>
                 </span>
               </div>
             </div>

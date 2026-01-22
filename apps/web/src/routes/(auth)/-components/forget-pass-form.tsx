@@ -1,6 +1,6 @@
 import { Mail01Icon, SentIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { useRouter } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { ZodError } from "zod";
@@ -13,7 +13,7 @@ import { getFirstZodError } from "@/lib/utils";
 import { forgetPasswordSchema } from "@/shared/auth/auth.schema";
 
 export const ForgetPasswordForm = () => {
-  const router = useRouter();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -21,14 +21,14 @@ export const ForgetPasswordForm = () => {
       if (e.key === "reset-password-complete" && e.newValue === "true") {
         localStorage.removeItem("reset-password-complete");
 
-        router.navigate({ to: "/sign-in", search: { passwordChanged: true }, replace: true });
+        navigate({ to: "/sign-in", search: { passwordChanged: true }, replace: true });
       }
     };
 
     window.addEventListener("storage", handleStorageChange);
 
     return () => window.removeEventListener("storage", handleStorageChange);
-  }, [router]);
+  }, []);
 
   const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

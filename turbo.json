@@ -5,11 +5,13 @@
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".next/**", "!.next/cache/**"]
+      "outputs": [".tanstack/**", "!.tanstack/cache/**"]
     },
     "lint": { "dependsOn": ["^lint"] },
     "check-types": { "dependsOn": ["^check-types"] },
     "dev": { "cache": false, "persistent": true },
+    "preview": { "cache": false, "persistent": true },
+    "docker": { "cache": false },
     "in": { "cache": false, "dependsOn": ["^in"] }
   },
   "globalEnv": [
@@ -49,6 +51,7 @@
     "KV_REST_API_URL",
     "KV_REST_API_TOKEN",
     "KV_REST_API_READ_ONLY_TOKEN",
-    "REDIS_URL"
+    "REDIS_URL",
+    "BUN_VERSION"
   ]
 }

@@ -1,6 +1,6 @@
 import { Fullscreen, Upload } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { useRouter } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
 import pLimit from "p-limit";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -40,7 +40,7 @@ export const CreateBlogUI = ({ username }: { username: string }) => {
     content: {},
     category: "",
   });
-  const router = useRouter();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
   const handleCreateBlog = async () => {
@@ -118,7 +118,7 @@ export const CreateBlogUI = ({ username }: { username: string }) => {
         },
       });
 
-      router.navigate({
+      navigate({
         to: "/$username/$blogid",
         params: { username, blogid: blogId },
         replace: true,

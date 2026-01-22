@@ -1,6 +1,6 @@
 import { Eye, EyeOff, ResetPasswordIcon } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { notFound, useRouter } from "@tanstack/react-router";
+import { notFound, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
 import { ZodError } from "zod";
@@ -13,7 +13,7 @@ import { getFirstZodError } from "@/lib/utils";
 import { resetPasswordSchema } from "@/shared/auth/auth.schema";
 
 export const ResetPasswordForm = ({ token }: { token: string }) => {
-  const router = useRouter();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
@@ -39,7 +39,7 @@ export const ResetPasswordForm = ({ token }: { token: string }) => {
       localStorage.setItem("reset-password-complete", "true");
 
       toast.success("Password changed");
-      router.navigate({ to: "/sign-in", search: { passwordChanged: true }, replace: true });
+      navigate({ to: "/sign-in", search: { passwordChanged: true }, replace: true });
     } catch (error) {
       if (error instanceof ZodError) {
         await new Promise((resolve) => setTimeout(resolve, 800));

@@ -1,6 +1,6 @@
 import { Fullscreen, Upload, X } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { Link } from "@tanstack/react-router";
+import { Link, useNavigate } from "@tanstack/react-router";
 import pLimit from "p-limit";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -21,7 +21,11 @@ import {
 } from "@/components/ui/drawer";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Textarea } from "@/components/ui/textarea";
-import { extractImages, extractImageUrls, replaceImageUrls } from "@/lib/content/utils";
+import {
+  extractImages,
+  extractImageUrls,
+  replaceImageUrls,
+} from "@/lib/content/utils";
 import { checkNudity } from "@/lib/image/check-nudity";
 import { uploadImage } from "@/lib/image/upload-image";
 import { extractPublicId } from "@/lib/image/utils";
@@ -41,13 +45,16 @@ export const EditBlogUI = ({ oldBlog }: { oldBlog: Blog }) => {
     content: oldBlog.content,
     category: oldBlog.category,
   });
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
 
   const handleEditBlog = async () => {
     setLoading(true);
     const toastIds: Array<string | number> = [];
     try {
-      const { images: newImages, base64Urls: newBase64Urls } = extractImages(blog.content);
+      const { images: newImages, base64Urls: newBase64Urls } = extractImages(
+        blog.content,
+      );
 
       const existingImageUrls = extractImageUrls(blog.content);
 
@@ -62,8 +69,6 @@ export const EditBlogUI = ({ oldBlog }: { oldBlog: Blog }) => {
         .filter((url) => !existingImageUrls.includes(url))
         .map((url) => extractPublicId(url));
 
-      console.log(imagesToKeep);
-
       editBlogClientSchema.parse({
         title: blog.title,
         content: blog.content,
@@ -73,7 +78,9 @@ export const EditBlogUI = ({ oldBlog }: { oldBlog: Blog }) => {
       });
 
       toastIds.push(toast.loading("Checking..."));
-      newImages.forEach(async (image) => await checkNudity(image));
+      for (const image of newImages) {
+        await checkNudity(image);
+      }
 
       toastIds.push(toast.loading("Updating..."));
       let uploadedImages: Array<{
@@ -137,7 +144,10 @@ export const EditBlogUI = ({ oldBlog }: { oldBlog: Blog }) => {
       const uploadReplacements =
         uploadedImages.length > 0
           ? Object.fromEntries(
-              uploadedImages.map(({ originalBase64, url }) => [originalBase64, url]),
+              uploadedImages.map(({ originalBase64, url }) => [
+                originalBase64,
+                url,
+              ]),
             )
           : {};
 
@@ -146,7 +156,7 @@ export const EditBlogUI = ({ oldBlog }: { oldBlog: Blog }) => {
         ...uploadReplacements,
       });
 
-      await editBlog({
+      const blogId = await editBlog({
         data: {
           blogId: oldBlog.id,
           title: blog.title,
@@ -156,6 +166,11 @@ export const EditBlogUI = ({ oldBlog }: { oldBlog: Blog }) => {
           images: finalImages,
           imagesToDelete,
         },
+      });
+
+      navigate({
+        to: "/$username/$blogid",
+        params: { username: oldBlog.author.username, blogid: blogId },
       });
     } catch (error) {
       if (error instanceof ZodError) {
@@ -167,9 +182,9 @@ export const EditBlogUI = ({ oldBlog }: { oldBlog: Blog }) => {
       }
     } finally {
       setLoading(false);
-      toastIds.forEach((t) => {
+      for (const t of toastIds) {
         toast.dismiss(t);
-      });
+      }
     }
   };
 
@@ -218,7 +233,10 @@ export const EditBlogUI = ({ oldBlog }: { oldBlog: Blog }) => {
         </Link>
         <Drawer dismissible={!loading}>
           <DrawerTrigger asChild>
-            <Button size="lg" disabled={loading || !blog.category || !blog.title}>
+            <Button
+              size="lg"
+              disabled={loading || !blog.category || !blog.title}
+            >
               Preview <HugeiconsIcon icon={Fullscreen} />
             </Button>
           </DrawerTrigger>

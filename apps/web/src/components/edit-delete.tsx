@@ -1,6 +1,6 @@
 import { PencilLine, Trash2 } from "@hugeicons/core-free-icons";
 import { HugeiconsIcon } from "@hugeicons/react";
-import { useRouter } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import { deleteBlog } from "@/server/blog/blog.controller";
@@ -14,7 +14,7 @@ export const EditDelete = ({
   blogId: string;
   isMobile?: boolean;
 }) => {
-  const router = useRouter();
+  const navigate = useNavigate();
   const { show } = useAlertDialog();
 
   const handleDeleteBlog = async () => {
@@ -23,7 +23,7 @@ export const EditDelete = ({
     try {
       await deleteBlog({ data: { blogId } });
 
-      router.navigate({ to: "/", replace: true });
+      navigate({ to: "/", replace: true });
     } catch (error) {
       if (error instanceof Error) {
         toast.error(error.message);
@@ -43,8 +43,7 @@ export const EditDelete = ({
             title: "Edit this blog?",
             description: `ID: ${blogId}`,
             actionLabel: "Edit",
-            onConfirm: () =>
-              router.navigate({ to: "/edit-blog/$blogid", params: { blogid: blogId } }),
+            onConfirm: () => navigate({ to: "/edit-blog/$blogid", params: { blogid: blogId } }),
           });
         }}
       >

@@ -9,7 +9,10 @@ import viteTsConfigPaths from "vite-tsconfig-paths";
 const config = defineConfig({
   appType: "custom",
   server: { port: 3000 },
-  nitro: { preset: "vercel" },
+  nitro: {
+    vercel: { functions: { runtime: "bun1.x" } },
+    compatibilityDate: "latest",
+  },
   plugins: [
     devtools(),
     nitro(),

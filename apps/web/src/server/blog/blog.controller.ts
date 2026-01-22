@@ -1,4 +1,3 @@
-import { redirect } from "@tanstack/react-router";
 import { createServerFn } from "@tanstack/react-start";
 import { authMiddleware } from "@/middleware/auth";
 import { idSchema } from "../general/general.schema";
@@ -56,10 +55,7 @@ export const editBlog = createServerFn({ method: "POST" })
       throw new Error("Something went wrong");
     }
 
-    throw redirect({
-      to: "/$username/$blogid",
-      params: { username: context.username, blogid: data.blogId },
-    });
+    return data.blogId;
   });
 
 export const deleteBlog = createServerFn({ method: "POST" })

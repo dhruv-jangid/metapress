@@ -67,13 +67,13 @@ export const Footer = () => {
             <span>&copy; {new Date().getFullYear()}. All rights reserved.</span>
             <div className="xl:self-end inline-flex xl:justify-between xl:w-1/2 2xl:w-5/12 gap-6 xl:gap-0">
               <Link
-                to="/"
+                to="/policies#terms"
                 className="underline underline-offset-8 decoration-dotted tracking-tight inline-flex items-center gap-0.5"
               >
                 Terms of Use <HugeiconsIcon icon={ArrowUpRight} size={16} />
               </Link>
               <Link
-                to="/"
+                to="/policies#privacy"
                 className="underline underline-offset-8 decoration-dotted tracking-tight inline-flex items-center gap-0.5"
               >
                 Privacy Policy <HugeiconsIcon icon={ArrowUpRight} size={16} />
@@ -86,7 +86,9 @@ export const Footer = () => {
 
         <div className="lg:mt-1.5 lg:w-2/3 flex flex-col justify-between gap-12">
           <div>
-            <span className="text-2xl tracking-tight">Subscribe to the newsletter</span>
+            <span className="text-2xl tracking-tight">
+              Subscribe to the newsletter
+            </span>
             <div className="relative w-full xl:w-2/3">
               <Input
                 type="email"
@@ -119,7 +121,11 @@ export const Footer = () => {
             </span>
             <div className="inline-flex items-center gap-1.5">
               MetaPress
-              <HugeiconsIcon icon={QuillWrite01Icon} size={16} strokeWidth={2} />
+              <HugeiconsIcon
+                icon={QuillWrite01Icon}
+                size={16}
+                strokeWidth={2}
+              />
             </div>
           </div>
         </div>
