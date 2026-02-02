@@ -10,7 +10,10 @@ const config = defineConfig({
   appType: "custom",
   server: { port: 3000 },
   nitro: {
-    vercel: { functions: { runtime: "bun1.x" } },
+    vercel: {
+      functions: { runtime: "bun1.x" },
+      config: { version: 3, crons: [{ path: "/api/cron/sync-likes", schedule: "0 0 * * *" }] },
+    },
     compatibilityDate: "latest",
   },
   plugins: [
