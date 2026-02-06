@@ -1,10 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Grid } from "@/components/grid";
-import { getBlogsFeed } from "@/server/general/general.controller";
+import { blogsFeedQueryOptions } from "@/server/general/general.query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
 export const Route = createFileRoute("/(protected)/feed")({
-  loader: async () => {
-    return await getBlogsFeed();
+  loader: async ({ context }) => {
+    await context.queryClient.ensureQueryData(blogsFeedQueryOptions());
   },
   head: () => ({
     meta: [{ title: "Feed" }],
@@ -13,7 +14,7 @@ export const Route = createFileRoute("/(protected)/feed")({
 });
 
 function RouteComponent() {
-  const blogs = Route.useLoaderData();
+  const { data: blogs } = useSuspenseQuery(blogsFeedQueryOptions());
 
   return (
     <>

@@ -1,7 +1,9 @@
-import { Link } from "@tanstack/react-router";
-import { Button } from "./ui/button";
+import { ErrorComponentProps, Link } from "@tanstack/react-router";
+import { Button } from "../ui/button";
 
-export const ErrorComponent = () => {
+export const ErrorComponent = ({ error }: { error: ErrorComponentProps }) => {
+  console.warn(error.error);
+
   return (
     <div className="h-dvh w-full overflow-hidden">
       <div className="h-1/4 grid grid-cols-3 w-full ml-8 items-end">

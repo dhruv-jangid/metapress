@@ -1,6 +1,6 @@
 # MetaPress: The Pulse of Creativity
 
-A next-gen, full-featured blogging platform built with TanStack Start, React 19, Bun, and Turborepo. Features rich text editing, advanced user authentication, content moderation, admin management, and Model Context Protocol (MCP) AI integration. Now at **v2.0.0**.
+A next-gen, full-featured blogging platform built with TanStack Start, React 19, Bun, and Turborepo. Features rich text editing, advanced user authentication, content moderation, admin management, and Model Context Protocol (MCP) AI integration.
 
 ## Overview
 
@@ -8,8 +8,9 @@ MetaPress is a comprehensive, scalable blogging platform for creators and reader
 
 ### Key Highlights
 
-- **Modern Tech Stack**: TanStack Start, TanStack Router, React 19, Bun, Turborepo, TypeScript
+- **Modern Tech Stack**: TanStack Start, TanStack Router, React, Bun, Turborepo, TypeScript
 - **Rich Content Creation**: TipTap editor, image/media support, emoji, YouTube embeds
+- **Data Management**: TanStack React Query, Server-side query functions with suspense support
 - **User Experience**: Responsive UI, dark/light mode, fast navigation
 - **Security & Moderation**: NSFW detection, profanity filtering, role-based access
 - **Scalable & Performant**: Redis caching, optimized builds, Docker support
@@ -84,13 +85,14 @@ MetaPress is a comprehensive, scalable blogging platform for creators and reader
 
 - **TanStack Start** (Full-stack React framework)
 - **TanStack Router** (Type-safe routing)
+- **TanStack React Query** (Data synchronization)
 - **React 19**
 - **Vite** (Build tool)
 - **Nitro** (Server engine, Vercel preset)
-- **TypeScript 5.9+**
-- **Tailwind CSS 4.1+**
+- **TypeScript**
+- **Tailwind CSS**
 - **shadcn/ui** (Radix UI)
-- **TipTap 3.7+**
+- **TipTap** (Rich text editor)
 - **next-themes** (Theme management)
 
 ### Backend & Database
@@ -114,11 +116,12 @@ MetaPress is a comprehensive, scalable blogging platform for creators and reader
 
 ### Dev & Build
 
-- **Bun 1.3+**
-- **Turborepo 2.6+**
+- **Bun** (Package manager & runtime)
+- **Turborepo** (Monorepo orchestration)
 - **Husky**
 - **ESLint**
 - **Zod**
+- **@modelcontextprotocol/sdk**
 
 ### Email & Notifications
 
@@ -129,7 +132,7 @@ MetaPress is a comprehensive, scalable blogging platform for creators and reader
 
 ### Prerequisites
 
-- Bun 1.3+ installed
+- Bun installed
 - PostgreSQL (local/Neon)
 - Redis (optional)
 - Cloudinary account
@@ -157,7 +160,15 @@ metapress/
 │       ├── src/
 │       │   ├── routes/      # TanStack Router routes
 │       │   ├── components/  # UI components, providers, sidebar
-│       │   ├── server/      # Server-side logic (auth, blog, cache, etc.)
+│       │   ├── server/      # Server-side logic
+│       │   │   ├── auth/    # Authentication handlers
+│       │   │   ├── blog/    # Blog queries & controllers
+│       │   │   ├── comment/ # Comment queries & controllers
+│       │   │   ├── user/    # User queries & controllers
+│       │   │   ├── general/ # General queries & controllers
+│       │   │   ├── cache/   # Redis caching
+│       │   │   ├── image/   # Image processing
+│       │   │   └── mcp/     # Model Context Protocol handlers
 │       │   ├── db/          # Database schema, relations, drizzle config
 │       │   ├── hooks/       # Custom React hooks
 │       │   ├── lib/         # Utilities, content, image processing
@@ -276,6 +287,89 @@ bun drizzle-kit push
 3. Update `.env`
 4. Run migrations
 
+## Data Fetching
+
+MetaPress uses **TanStack React Query** with server-side query options for optimal data management:
+
+### Query Pattern
+
+Each server module (blog, comment, user, general) has a corresponding `.query.ts` file:
+
+```ts
+// apps/web/src/server/blog/blog.query.ts
+import { queryOptions } from "@tanstack/react-query";
+import { getBlog } from "./blog.controller";
+
+export const blogQueryOptions = ({ id }: { id: string }) =>
+  queryOptions({
+    queryKey: ["blog", id],
+    queryFn: () => getBlog({ data: id }),
+    placeholderData: (prevData) => prevData,
+  });
+```
+
+### Usage in Routes
+
+Routes use `useSuspenseQuery` with loader prefetching:
+
+```ts
+export const Route = createFileRoute("/(protected)/feed")({
+  loader: async ({ context }) => {
+    await context.queryClient.ensureQueryData(blogsFeedQueryOptions());
+  },
+  head: () => ({
+    meta: [{ title: "Feed" }],
+  }),
+});
+
+function RouteComponent() {
+  const { data: blogs } = useSuspenseQuery(blogsFeedQueryOptions());
+  return <>...</>;
+}
+```
+
+### Benefits
+
+- Server-side prefetching via route loaders
+- Automatic cache invalidation
+- Type-safe query keys and data
+- SSR-friendly with Suspense
+- Simplified component data fetching
+
+### Database & ORM
+
+MetaPress uses **Drizzle ORM** with PostgreSQL:
+
+#### Schema
+
+- `users` - User accounts, roles, profile data
+- `blogs` - Blog posts with content, metadata
+- `comments` - Comments on blogs
+- `likes` - User likes on blogs
+- `_prisma_migrations` - Migration tracking
+
+#### Setup
+
+```bash
+cd apps/web
+
+# Generate schema
+bun drizzle-kit generate
+
+# Apply migrations
+bun drizzle-kit push
+
+# Migrate + seed
+bun drizzle-kit migrate
+```
+
+#### Features
+
+- Relationships with foreign keys
+- Proper indexing for performance
+- Enum types for roles (ADMIN, USER)
+- Timestamps (createdAt, updatedAt)
+
 ## Docker Setup
 
 If you have a `docker-compose.yml` file in `apps/web/`, you can use it for local PostgreSQL/Redis:
@@ -332,7 +426,7 @@ Get user details by username (3-30 chars, lowercase, alphanumeric/underscores).
 
 ```ts
 import { Client } from "@modelcontextprotocol/sdk/client/index.js";
-const client = new Client({ name: "metapress-client", version: "2.0.0" });
+const client = new Client({ name: "metapress-client" });
 const result = await client.callTool({
   name: "getUserInfo",
   arguments: { username: "johndoe" },
@@ -419,7 +513,6 @@ MIT - see [LICENSE](LICENSE)
 
 ---
 
-**Version**: 2.0.0  
 **Author**: dhruvjangid  
 **Description**: The Pulse of Creativity
 

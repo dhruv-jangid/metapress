@@ -2,17 +2,19 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Grid } from "@/components/grid";
 import { Separator } from "@/components/ui/separator";
 import { VerticalList } from "@/components/vertical-list";
-import { getBlogsFeed } from "@/server/general/general.controller";
+import { blogsFeedQueryOptions } from "@/server/general/general.query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
 export const Route = createFileRoute("/(protected)/browse")({
-  loader: async () => {
-    return await getBlogsFeed();
+  loader: async ({ context }) => {
+    await context.queryClient.ensureQueryData(blogsFeedQueryOptions());
   },
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const [blog1, blog2, ...blogs] = Route.useLoaderData();
+  const { data } = useSuspenseQuery(blogsFeedQueryOptions());
+  const [blog1, blog2, ...blogs] = data;
 
   return (
     <>
@@ -27,9 +29,7 @@ function RouteComponent() {
                 <span>S</span>
                 <span className="inline-flex flex-col text-2xl lg:text-3xl leading-5 lg:leading-6">
                   <span className="tracking-tight w-max">Latest News </span>
-                  <span className="ml-10 tracking-tight w-max">
-                    and updates
-                  </span>
+                  <span className="ml-10 tracking-tight w-max">and updates</span>
                 </span>
               </div>
             </div>

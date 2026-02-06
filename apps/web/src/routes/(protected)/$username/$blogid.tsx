@@ -6,37 +6,37 @@ import { EditDelete } from "@/components/edit-delete";
 import { Like } from "@/components/like";
 import { Share } from "@/components/share";
 import { Badge } from "@/components/ui/badge";
-import { getBlog } from "@/server/blog/blog.controller";
-import { getComments } from "@/server/comment/comment.controller";
 import { idSchema } from "@/server/general/general.schema";
+import { blogQueryOptions } from "@/server/blog/blog.query";
+import { commentsQueryOptions } from "@/server/comment/comment.query";
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { usernameSchema } from "@/shared/user/user.schema";
 
 export const Route = createFileRoute("/(protected)/$username/$blogid")({
-  beforeLoad: ({ params, context }) => {
-    const { success } = idSchema.safeParse(params.username);
-    if (!success) {
+  beforeLoad: ({ params }) => {
+    const { success: blogIdParseSuccess } = idSchema.safeParse(params.blogid);
+    const { success: usernameParseSuccess } = usernameSchema.safeParse(params.username);
+    if (!blogIdParseSuccess || !usernameParseSuccess) {
       throw notFound();
     }
-
-    return context.user;
   },
-  loader: async ({ params: { blogid } }) => {
-    const blog = await getBlog({ data: blogid });
-    const comments = await getComments({ data: blogid });
+  loader: async ({ params, context }) => {
+    const blog = await context.queryClient.ensureQueryData(blogQueryOptions({ id: params.blogid }));
+    await context.queryClient.ensureQueryData(commentsQueryOptions({ id: params.blogid }));
 
-    return {
-      blog,
-      comments,
-    };
+    return { blog };
   },
-  head: ({ loaderData, params }) => ({
-    meta: [{ title: `${loaderData?.blog.title ?? `${params.blogid}- Not Found`}` }],
+  head: ({ loaderData }) => ({
+    meta: [{ title: `${loaderData?.blog.title ?? "Not Found"}` }],
   }),
   component: RouteComponent,
 });
 
 function RouteComponent() {
   const { user } = Route.useRouteContext();
-  const { blog, comments } = Route.useLoaderData();
+  const { blogid } = Route.useParams();
+  const { data: blog } = useSuspenseQuery(blogQueryOptions({ id: blogid }));
+  const { data: comments } = useSuspenseQuery(commentsQueryOptions({ id: blogid }));
   const isAuthor = user.role === "admin" || user.username === blog.author.username;
 
   return (

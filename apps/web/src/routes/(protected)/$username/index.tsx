@@ -4,8 +4,9 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { UserGrid } from "@/components/user-grid";
-import { getUserWithBlogs } from "@/server/user/user.controller";
 import { usernameSchema } from "@/shared/user/user.schema";
+import { userWithBlogsQueryOptions } from "@/server/user/user.query";
+import { useSuspenseQuery } from "@tanstack/react-query";
 
 export const Route = createFileRoute("/(protected)/$username/")({
   beforeLoad: ({ params }) => {
@@ -14,18 +15,26 @@ export const Route = createFileRoute("/(protected)/$username/")({
       throw notFound();
     }
   },
-  loader: async ({ params }) => {
-    const data = await getUserWithBlogs({ data: params.username });
-    return { user: data.user, blogs: data.blogs.blogs };
+  loader: async ({ params, context }) => {
+    const { user } = await context.queryClient.ensureQueryData(
+      userWithBlogsQueryOptions({ username: params.username }),
+    );
+
+    return { user };
   },
-  head: ({ loaderData, params }) => ({
-    meta: [{ title: `${loaderData?.user.name ?? `${params.username}- Not Found`}` }],
+  head: ({ loaderData }) => ({
+    meta: [{ title: `${loaderData?.user.name ?? "Not Found"}` }],
   }),
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const { user, blogs } = Route.useLoaderData();
+  const { username } = Route.useParams();
+  const { data } = useSuspenseQuery(userWithBlogsQueryOptions({ username }));
+  const {
+    user,
+    blogs: { blogs },
+  } = data;
 
   return (
     <div className="flex flex-col items-center min-h-dvh">
