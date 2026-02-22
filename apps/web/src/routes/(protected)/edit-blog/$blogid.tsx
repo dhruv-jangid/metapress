@@ -5,7 +5,7 @@ import { EditBlogUI } from "./-components/ui";
 export const Route = createFileRoute("/(protected)/edit-blog/$blogid")({
   loader: async ({ params: { blogid }, context }) => {
     const blog = await getBlog({ data: blogid });
-    if (blog.author.username !== context.user.username) {
+    if (context.user.role !== "admin" && blog.author.username !== context.user.username) {
       throw notFound();
     }
 

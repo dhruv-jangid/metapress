@@ -43,7 +43,7 @@ export const ContentViewer = ({ content }: { content: BlogContent }) => {
   return (
     <EditorContent
       editor={editor}
-      className="prose prose-slate dark:prose-invert max-w-none bg-transparent text-foreground
+      className="prose prose-slate dark:prose-invert max-w-none bg-transparent font-serif [&_.ProseMirror_h1]:font-sans [&_.ProseMirror_h2]:font-sans [&_.ProseMirror_h3]:font-sans text-foreground
             [&_.ProseMirror]:outline-none [&_.ProseMirror_iframe]:w-full [&_.ProseMirror_iframe]:h-64
             sm:[&_.ProseMirror_iframe]:h-80 md:[&_.ProseMirror_iframe]:aspect-video [&_.ProseMirror_iframe]:rounded-lg
             [&_.ProseMirror_h1]:text-4xl [&_.ProseMirror_h1]:font-bold [&_.ProseMirror_h1]:mb-2 [&_.ProseMirror_h1]:tracking-tight

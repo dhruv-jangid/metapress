@@ -62,7 +62,9 @@ export const Footer = ({ user }: { user: UserSession | null }) => {
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
                   <span className="truncate font-medium">{user?.name ?? "Guest"}</span>
-                  <span className="truncate text-xs">{user?.email ?? "Login to get started"}</span>
+                  <span className={`truncate text-xs ${user?.email && "text-muted-foreground"}`}>
+                    {user?.email ?? "Login to get started"}
+                  </span>
                 </div>
                 <HugeiconsIcon icon={UnfoldMoreIcon} className="ml-auto size-4" />
               </SidebarMenuButton>
