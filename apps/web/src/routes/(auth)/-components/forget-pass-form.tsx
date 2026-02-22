@@ -30,7 +30,7 @@ export const ForgetPasswordForm = () => {
     return () => window.removeEventListener("storage", handleStorageChange);
   }, []);
 
-  const handleFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
 
@@ -48,7 +48,13 @@ export const ForgetPasswordForm = () => {
         throw new Error(error.message);
       }
 
-      toast.success("Check your email for password reset link");
+      toast.success("Check your email for password reset link", {
+        duration: Infinity,
+        dismissible: false,
+        description: "Link is valid only for 1 hour",
+        descriptionClassName: "text-red-500!",
+        className: "select-none",
+      });
     } catch (error) {
       if (error instanceof ZodError) {
         await new Promise((resolve) => setTimeout(resolve, 800));
