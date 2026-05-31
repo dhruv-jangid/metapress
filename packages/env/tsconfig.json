@@ -1,0 +1,3 @@
+{
+  "extends": "@metapress/config/tsconfig.base.json"
+}

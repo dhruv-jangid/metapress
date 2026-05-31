@@ -1,21 +1,82 @@
 {
-  "$schema": "https://turborepo.com/schema.json",
+  "$schema": "https://turbo.build/schema.json",
   "ui": "tui",
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["$TURBO_DEFAULT$", ".env*"],
-      "outputs": [".tanstack/**", "!.tanstack/cache/**"]
+      "outputs": ["dist/**", ".svelte-kit/**", "build/**"]
     },
-    "lint": { "dependsOn": ["^lint"] },
-    "check-types": { "dependsOn": ["^check-types"] },
-    "dev": { "cache": false, "persistent": true },
-    "preview": { "cache": false, "persistent": true },
-    "docker": { "cache": false },
-    "in": { "cache": false, "dependsOn": ["^in"] }
+    "build:web": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "outputs": ["dist/**", ".svelte-kit/**", "build/**"]
+    },
+    "build:server": {
+      "dependsOn": ["^build"],
+      "inputs": ["$TURBO_DEFAULT$", ".env*"],
+      "outputs": ["dist/**", "build/**"]
+    },
+    "lint": {
+      "dependsOn": ["^lint"]
+    },
+    "check-types": {
+      "dependsOn": ["^check-types"]
+    },
+    "dev": {
+      "cache": false,
+      "persistent": true
+    },
+    "start": {
+      "cache": false,
+      "persistent": true
+    },
+    "db:push": {
+      "cache": false
+    },
+    "db:generate": {
+      "cache": false
+    },
+    "db:migrate": {
+      "cache": false,
+      "persistent": true
+    },
+    "db:studio": {
+      "cache": false,
+      "persistent": true
+    },
+    "db:start": {
+      "cache": false,
+      "persistent": true
+    },
+    "db:stop": {
+      "cache": false
+    },
+    "db:watch": {
+      "cache": false,
+      "persistent": true
+    },
+    "db:down": {
+      "cache": false
+    },
+    "cache:flush": {
+      "cache": false
+    },
+    "cache:warmup:likes": {
+      "cache": false
+    },
+    "cache:warmup:usernames": {
+      "cache": false
+    },
+    "clean": {
+      "cache": false
+    },
+    "in": {
+      "cache": false
+    }
   },
   "globalEnv": [
-    "CRON_SECRET",
+    "CORS_ORIGIN",
     "SNOWFLAKE_WORKER_ID",
     "SNOWFLAKE_EPOCH",
     "HASHIDS_SALT",

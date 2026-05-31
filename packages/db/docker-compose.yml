@@ -1,0 +1,30 @@
+name: metapress
+
+services:
+  redis:
+    image: redis
+    container_name: metapress-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+
+  postgres:
+    image: postgres
+    container_name: metapress-postgres
+    environment:
+      POSTGRES_DB: metapress
+      POSTGRES_USER: metapress
+      POSTGRES_PASSWORD: metapress
+    ports:
+      - "5432:5432"
+    volumes:
+      - metapress_postgres_data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  metapress_postgres_data:

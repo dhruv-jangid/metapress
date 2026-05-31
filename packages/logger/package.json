@@ -1,0 +1,19 @@
+{
+  "name": "@metapress/logger",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@logtape/drizzle-orm": "^2.1.1",
+    "@logtape/elysia": "^2.1.1",
+    "@logtape/logtape": "^2.0.7",
+    "@metapress/env": "workspace:*"
+  },
+  "devDependencies": {
+    "@metapress/config": "workspace:*",
+    "typescript": "catalog:"
+  }
+}

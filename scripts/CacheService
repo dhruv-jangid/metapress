@@ -1,0 +1,153 @@
+import { redis } from "bun";
+
+export class CacheService {
+  // Bun's redis doesn't expose any method for multi/exec as of now so shifted to raw commands
+  static multi = async (commands: [string, string[]][]) => {
+    await redis.send("MULTI", []);
+    for (const [cmd, args] of commands) {
+      await redis.send(cmd, args);
+    }
+    return await redis.send("EXEC", []);
+  };
+
+  static eval = () => redis.send.bind(redis);
+
+  // Upstash doesn't support bloom filters yet so shifted to sets for username checks
+  static bfReserve = async (key: string, errorRate: number, capacity: number) => {
+    await redis.send("BF.RESERVE", [key, String(errorRate), String(capacity)]);
+  };
+
+  static bfAdd = async (key: string, item: string) => {
+    await redis.send("BF.ADD", [key, item]);
+  };
+
+  static bfExists = async (key: string, item: string) => {
+    return await redis.send("BF.EXISTS", [key, item]);
+  };
+
+  static flushAll = async () => await redis.send("FLUSHALL", []);
+
+  static get = async (key: string) => {
+    return await redis.get(key);
+  };
+
+  static mGet = async <T>(keys: string[]): Promise<T[] | null[]> => {
+    const results = await redis.mget(...keys);
+    return (results as string[] | null[]).map((r) => (r ? JSON.parse(r) : null));
+  };
+
+  static set = async (key: string, value: string, ttlSeconds?: number) => {
+    if (ttlSeconds) {
+      await redis.set(key, value);
+    } else {
+      await redis.set(key, value);
+    }
+  };
+
+  static del = async (key: string) => {
+    await redis.del(key);
+  };
+
+  static getCounter = async (key: string) => {
+    const value = await redis.get(key);
+    return value ? Number(value) : 0;
+  };
+
+  static setCounter = async (key: string, value: number) => {
+    await redis.set(key, String(value));
+  };
+
+  static incr = async (key: string, amount = 1) => {
+    await redis.incrby(key, amount);
+  };
+
+  static decr = async (key: string, amount = 1) => {
+    await redis.decrby(key, amount);
+  };
+
+  static sCard = async (key: string) => {
+    return await redis.scard(key);
+  };
+
+  // Bun's sismember already returns boolean — no === 1 needed
+  static sIsMember = async (key: string, member: string) => {
+    return await redis.sismember(key, member);
+  };
+
+  static sRandMembers = async (key: string, count: number) => {
+    return await redis.send("SRANDMEMBER", [key, String(count)]);
+  };
+
+  static sAdd = async (key: string, member: string) => {
+    await redis.sadd(key, member);
+  };
+
+  static sRem = async (key: string, member: string) => {
+    await redis.srem(key, member);
+  };
+
+  // Bun has no zRange with BYSCORE+LIMIT options — use raw send
+  static zRange = async (
+    key: string,
+    min: number | string,
+    max: number | string,
+    opts: { reverse?: boolean; offset?: number; count?: number },
+  ) => {
+    const command = opts.reverse ? "ZREVRANGEBYSCORE" : "ZRANGEBYSCORE";
+    const effectiveMin = opts.reverse ? max : min;
+    const effectiveMax = opts.reverse ? min : max;
+    return await redis.send(command, [
+      key,
+      String(effectiveMin),
+      String(effectiveMax),
+      "LIMIT",
+      String(opts.offset ?? 0),
+      String(opts.count ?? 10),
+    ]);
+  };
+
+  // Bun's zadd signature: zadd(key, score, member) — no array of objects
+  static zAdd = async (key: string, members: { score: number; value: string }[]) => {
+    await Promise.all(members.map(({ score, value }) => redis.zadd(key, score, value)));
+  };
+
+  static zRem = async (key: string, member: string) => {
+    await redis.zrem(key, member);
+  };
+
+  static hGetAll = async <T>(key: string) => {
+    return (await redis.hgetall(key)) as T;
+  };
+
+  // Bun's hset takes (key, field, value) or (key, object) — flat array not supported
+  // Convert the flat array to an object
+  static hSet = async (key: string, data: string[]) => {
+    const obj: Record<string, string> = {};
+    for (let i = 0; i < data.length; i += 2) {
+      obj[data[i]] = data[i + 1];
+    }
+    await redis.hset(key, obj);
+  };
+
+  static lRange = async <T>(key: string, start: number, end: number): Promise<T[]> => {
+    const result = await redis.lrange(key, start, end);
+    return (result as string[]).map((i) => JSON.parse(i));
+  };
+
+  static lPush = async <T>(key: string, value: T) => {
+    return await redis.lpush(key, JSON.stringify(value));
+  };
+
+  static lPushMultiple = async <T>(key: string, items: T[]): Promise<number> => {
+    const serialized = items.map((i) => JSON.stringify(i));
+    return (await redis.send("LPUSH", [key, ...serialized])) as number;
+  };
+
+  static lRem = async (key: string, count: number, element: string) => {
+    await redis.lrem(key, count, element);
+  };
+
+  static lTrim = async (key: string, start: number, end: number) => {
+    await redis.ltrim(key, start, end);
+  };
+}

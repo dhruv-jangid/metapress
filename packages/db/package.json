@@ -1,0 +1,33 @@
+{
+  "name": "@metapress/db",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./schemas": "./src/schema/index.ts",
+    "./utils": "./src/lib/unique-violation.ts"
+  },
+  "scripts": {
+    "db:push": "drizzle-kit push",
+    "db:generate": "drizzle-kit generate",
+    "db:studio": "drizzle-kit studio",
+    "db:migrate": "drizzle-kit migrate",
+    "db:start": "docker compose up -d",
+    "db:watch": "docker compose up",
+    "db:stop": "docker compose stop",
+    "db:down": "docker compose down"
+  },
+  "dependencies": {
+    "@metapress/env": "workspace:*",
+    "@metapress/logger": "workspace:*",
+    "@sapphire/snowflake": "^3.5.5",
+    "drizzle-orm": "catalog:",
+    "pg": "^8.17.1"
+  },
+  "devDependencies": {
+    "@metapress/api": "workspace:*",
+    "@metapress/config": "workspace:*",
+    "@types/pg": "^8.16.0",
+    "drizzle-kit": "^0.31.8",
+    "typescript": "catalog:"
+  }
+}

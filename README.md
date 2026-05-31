@@ -1,519 +1,195 @@
-# MetaPress: The Pulse of Creativity
+# MetaPress
 
-A next-gen, full-featured blogging platform built with TanStack Start, React 19, Bun, and Turborepo. Features rich text editing, advanced user authentication, content moderation, admin management, and Model Context Protocol (MCP) AI integration.
+MetaPress is a full-stack blogging and publishing platform for writing, publishing, reading, liking, and discussing long-form content.
 
-## Overview
-
-MetaPress is a comprehensive, scalable blogging platform for creators and readers. Built with the latest web technologies, it offers seamless content creation, advanced moderation, robust user management, and AI-powered insights via MCP. The platform is optimized for speed, security, and developer experience.
-
-### Key Highlights
-
-- **Modern Tech Stack**: TanStack Start, TanStack Router, React, Bun, Turborepo, TypeScript
-- **Rich Content Creation**: TipTap editor, image/media support, emoji, YouTube embeds
-- **Data Management**: TanStack React Query, Server-side query functions with suspense support
-- **User Experience**: Responsive UI, dark/light mode, fast navigation
-- **Security & Moderation**: NSFW detection, profanity filtering, role-based access
-- **Scalable & Performant**: Redis caching, optimized builds, Docker support
-- **MCP AI Integration**: Model Context Protocol for user info and AI features
-- **Admin Management**: Full dashboard, user/content controls
-- **Monorepo Structure**: Turbo-powered multi-app setup
-
-## Table of Contents
-
-- [Features](#features)
-- [Tech Stack](#tech-stack)
-- [Getting Started](#getting-started)
-- [Project Structure](#project-structure)
-- [Environment Variables](#environment-variables)
-- [Scripts](#scripts)
-- [Database & Docker](#database--docker)
-- [MCP Integration](#mcp-integration)
-- [Deployment](#deployment)
-- [Contributing](#contributing)
-- [License](#license)
-- [Acknowledgments](#acknowledgments)
+Live site: [https://metapress.vercel.app](https://metapress.vercel.app)
 
 ## Features
 
-### Content Management
-
-- **TipTap Editor**: Rich text, images, emoji, YouTube embeds
-- **Cloudinary Integration**: Image upload, optimization, NSFW detection
-- **Categories**: Predefined, organized content
-- **Profanity & NSFW Filtering**: Automatic moderation
-- **Character Limit**: 50,000 per post, live counter
-
-### User Management
-
-- **Better Auth**: Email/password, Google, GitHub OAuth
-- **Profiles**: Custom usernames, display names, avatars
-- **Email Verification & Reset**: Secure flows
-- **Account Controls**: Change email, delete, manage settings
-- **Liked Posts**: Track favorites
-
-### Admin Features
-
-- **Dashboard**: Manage users, blogs, comments
-- **User Banning**: Custom reasons, expiry
-- **Role-based Access**: Admin/user separation
-
-### User Experience
-
-- **Responsive UI**: Mobile-first, Tailwind CSS
-- **Dark/Light Mode**: next-themes
-- **Interactive**: Likes, comments, search, category browsing
-- **Caching**: Redis for speed
-- **Real-time**: Live validation, character count
-- **About/Contact**: Professional pages
-
-### Security & Safety
-
-- **NSFW Detection**: TensorFlow.js, NSFWJS
-- **Profanity Filtering**: Obscenity lib
-- **Input Validation**: Zod schemas
-- **JWT Sessions**: Secure cookies
-- **Rate Limiting**: Anti-spam
-
-### MCP AI Integration
-
-- **Model Context Protocol**: AI user info, multi-transport (HTTP, SSE, WS)
-- **Vercel MCP Adapter**: Production-ready
+- Rich blog editor powered by TipTap with slash commands, images, tables, task lists, embeds, code blocks, and formatted content.
+- Blog publishing flow with title/category validation, preview, Cloudinary image upload, and image cleanup on failed uploads.
+- Auth with Better Auth, including email/password, email verification, password reset, Google OAuth, GitHub OAuth, username support, and admin support.
+- Protected reader/writer experience with browse, feed, create blog, edit blog, profile, liked blogs, and blog detail pages.
+- User profiles with published blogs.
+- Likes and comments for authenticated users.
+- Cloudinary-backed media signing and deletion.
+- Redis-backed caching for blogs, comments, likes, feed data, user data, and username availability.
+- PostgreSQL database schema managed through Drizzle ORM.
+- Type-safe API contracts shared between the server and web app through ORPC and Zod.
+- OpenAPI reference generated from the ORPC router.
 
 ## Tech Stack
 
-### Frontend
+- Runtime/package manager: Bun
+- Monorepo: Turborepo and Bun workspaces
+- Frontend: SvelteKit 5, Svelte, Tailwind CSS, shadcn-svelte/Bits UI components
+- Backend: Elysia, ORPC, Bun
+- Auth: Better Auth
+- Database: PostgreSQL, Drizzle ORM, Drizzle Kit
+- Cache: Redis
+- Media: Cloudinary
+- Email: Nodemailer
+- Editor: TipTap
+- Validation: Zod
+- Logging: LogTape
+- Tooling: Oxlint, Oxfmt, Lefthook
 
-- **TanStack Start** (Full-stack React framework)
-- **TanStack Router** (Type-safe routing)
-- **TanStack React Query** (Data synchronization)
-- **React 19**
-- **Vite** (Build tool)
-- **Nitro** (Server engine, Vercel preset)
-- **TypeScript**
-- **Tailwind CSS**
-- **shadcn/ui** (Radix UI)
-- **TipTap** (Rich text editor)
-- **next-themes** (Theme management)
+## Project Structure
 
-### Backend & Database
+```text
+metapress/
+├── apps/
+│   ├── server/       # Bun + Elysia API server
+│   └── web/          # SvelteKit web application
+├── packages/
+│   ├── api/          # Shared ORPC contracts and Zod schemas
+│   ├── auth/         # Better Auth server and web helpers
+│   ├── config/       # Shared TypeScript configuration
+│   ├── db/           # Drizzle client, schema, and database scripts
+│   ├── editor/       # TipTap editor setup and extensions
+│   ├── env/          # Server environment validation
+│   └── logger/       # LogTape logging helpers
+├── scripts/          # Repository maintenance scripts
+├── package.json      # Root scripts and workspace config
+└── turbo.json        # Turborepo task pipeline
+```
 
-- **Better Auth**
-- **Drizzle ORM**
-- **PostgreSQL** (Neon/local)
-- **Redis**
-- **Drizzle Kit**
+## Prerequisites
 
-### Content & Media
+- Bun `1.3.14` or newer compatible version
+- Docker and Docker Compose for local PostgreSQL and Redis
+- Cloudinary account and API credentials
+- Google OAuth credentials
+- GitHub OAuth credentials
+- Email account/app password for Nodemailer
 
-- **Cloudinary**
-- **TensorFlow.js**, **NSFWJS**
-- **Obscenity**
+## Environment Variables
 
-### AI & Integration
+Create the web environment file at `apps/web/.env`:
 
-- **@modelcontextprotocol/sdk**
-- **@vercel/mcp-adapter**
+```env
+PUBLIC_SERVER_URL=http://localhost:3000
+```
 
-### Dev & Build
+Create the server environment file at `apps/server/.env`:
 
-- **Bun** (Package manager & runtime)
-- **Turborepo** (Monorepo orchestration)
-- **Husky**
-- **ESLint**
-- **Zod**
-- **@modelcontextprotocol/sdk**
+```env
+DATABASE_URL=postgres://metapress:metapress@localhost:5432/metapress
+BETTER_AUTH_SECRET=replace-with-at-least-32-characters
+BETTER_AUTH_URL=http://localhost:3000
+REDIS_URL=redis://localhost:6379
+CRON_SECRET=replace-with-a-secret-value
+SNOWFLAKE_WORKER_ID=1
+SNOWFLAKE_EPOCH=2024-01-01T00:00:00.000Z
+HASHIDS_SALT=replace-with-a-secret-value
+CLOUDINARY_CLOUD_NAME=your-cloud-name
+CLOUDINARY_API_KEY=your-api-key
+CLOUDINARY_API_SECRET=your-api-secret
+CLOUDINARY_URL=cloudinary://your-api-key:your-api-secret@your-cloud-name
+GOOGLE_CLIENT_ID=your-google-client-id
+GOOGLE_CLIENT_SECRET=your-google-client-secret
+GITHUB_CLIENT_ID=your-github-client-id
+GITHUB_CLIENT_SECRET=your-github-client-secret
+EMAIL_USER=your-email@example.com
+EMAIL_PASS=your-email-app-password
+POSTGRES_USER=metapress
+POSTGRES_PASSWORD=metapress
+POSTGRES_DB=metapress
+CORS_ORIGIN=http://localhost:5173
+NODE_ENV=development
+```
 
-### Email & Notifications
+The database scripts also need the same server environment values available when they run. If your shell or task runner does not load `apps/server/.env` for `packages/db`, export the variables in your shell or add an equivalent local env file for the database package.
 
-- **Nodemailer**
-- **Sonner**
+## Local Development
 
-## Getting Started
-
-### Prerequisites
-
-- Bun installed
-- PostgreSQL (local/Neon)
-- Redis (optional)
-- Cloudinary account
-
-### Installation
+Install dependencies:
 
 ```bash
 bun install
 ```
 
-Run the dev server:
+Start local PostgreSQL and Redis:
 
 ```bash
-bun dev
+bun run db:start
 ```
 
-Visit [http://localhost:3000](http://localhost:3000)
-
-## Project Structure
+Push the Drizzle schema to the database:
 
 ```bash
-metapress/
-├── apps/
-│   └── web/                 # Main web application
-│       ├── src/
-│       │   ├── routes/      # TanStack Router routes
-│       │   ├── components/  # UI components, providers, sidebar
-│       │   ├── server/      # Server-side logic
-│       │   │   ├── auth/    # Authentication handlers
-│       │   │   ├── blog/    # Blog queries & controllers
-│       │   │   ├── comment/ # Comment queries & controllers
-│       │   │   ├── user/    # User queries & controllers
-│       │   │   ├── general/ # General queries & controllers
-│       │   │   ├── cache/   # Redis caching
-│       │   │   ├── image/   # Image processing
-│       │   │   └── mcp/     # Model Context Protocol handlers
-│       │   ├── db/          # Database schema, relations, drizzle config
-│       │   ├── hooks/       # Custom React hooks
-│       │   ├── lib/         # Utilities, content, image processing
-│       │   ├── middleware/  # Route middleware
-│       │   ├── shared/      # Shared schemas and types
-│       │   ├── router.tsx   # Router configuration
-│       │   └── styles.css   # Global styles
-│       ├── public/          # Static assets (images, models)
-│       ├── drizzle.config.ts
-│       ├── vite.config.ts
-│       ├── tsconfig.json
-│       └── package.json
-├── bunfig.toml              # Bun configuration
-├── package.json             # Root package.json (monorepo)
-├── turbo.json               # Turborepo configuration
-└── vercel.json              # Vercel deployment config
+bun run db:push
 ```
 
-## Environment Variables
-
-Create a `.env` file at the root:
-
-### Required
+Start the web app and API server:
 
 ```bash
-# Cloudinary
-CLOUDINARY_CLOUD_NAME=your_cloud_name
-CLOUDINARY_API_KEY=your_api_key
-CLOUDINARY_API_SECRET=your_api_secret
-
-# Database
-DATABASE_URL=postgresql://username:password@localhost:5432/metapress
-# Or Neon:
-POSTGRES_URL=postgresql://username:password@host:port/database
-
-# Auth
-BETTER_AUTH_SECRET=your-secret-key
-BETTER_AUTH_URL=http://localhost:3000
+bun run dev
 ```
 
-### Optional
+Open the app at [http://localhost:5173](http://localhost:5173).
 
-```bash
-# OAuth
-GOOGLE_CLIENT_ID=your_google_client_id
-GOOGLE_CLIENT_SECRET=your_google_client_secret
-GITHUB_CLIENT_ID=your_github_client_id
-GITHUB_CLIENT_SECRET=your_github_client_secret
+The API runs at [http://localhost:3000/api](http://localhost:3000/api).
 
-# Email
-EMAIL_USER=your_email@example.com
-EMAIL_PASS=your_email_password
-
-# Redis
-REDIS_URL=redis://localhost:6379
-# Or Upstash:
-KV_URL=your_redis_url
-KV_REST_API_URL=your_redis_rest_url
-KV_REST_API_TOKEN=your_redis_token
-KV_REST_API_READ_ONLY_TOKEN=your_readonly_token
-```
-
-### Docker
-
-```bash
-POSTGRES_USER=postgres
-POSTGRES_PASSWORD=postgres
-POSTGRES_DB=metapress
-```
-
-### Setup
-
-1. Copy `.env.example` to `.env` (if available)
-2. Fill required vars
-3. Use Docker for local dev
-4. Use managed DB/cache for prod
+The API reference is available at [http://localhost:3000/api/reference](http://localhost:3000/api/reference).
 
 ## Scripts
 
-- `bun dev` - Start development server (Vite)
-- `bun build` - Production build
-- `bun start` - Start production server
-- `bun check-types` - TypeScript type checking
-- `bun docker` - Start DB/cache containers (if docker-compose.yml exists)
-- `bun clean` - Clean build artifacts
-- `bun in` - Install and update all dependencies
-
-## Database & Docker
-
-### Docker (Recommended)
-
-Start DB/cache:
-
-```bash
-bun docker
-```
-
-Run migrations:
-
-```bash
-cd apps/web
-bun drizzle-kit push
-```
-
-### Local (No Docker)
-
-1. Install PostgreSQL
-2. Create database `metapress`
-3. Update `.env` with `DATABASE_URL`
-4. Run migrations as above
-
-### Production (Neon/Other)
-
-1. Create DB
-2. Get connection string
-3. Update `.env`
-4. Run migrations
-
-## Data Fetching
-
-MetaPress uses **TanStack React Query** with server-side query options for optimal data management:
-
-### Query Pattern
-
-Each server module (blog, comment, user, general) has a corresponding `.query.ts` file:
-
-```ts
-// apps/web/src/server/blog/blog.query.ts
-import { queryOptions } from "@tanstack/react-query";
-import { getBlog } from "./blog.controller";
-
-export const blogQueryOptions = ({ id }: { id: string }) =>
-  queryOptions({
-    queryKey: ["blog", id],
-    queryFn: () => getBlog({ data: id }),
-    placeholderData: (prevData) => prevData,
-  });
-```
-
-### Usage in Routes
-
-Routes use `useSuspenseQuery` with loader prefetching:
-
-```ts
-export const Route = createFileRoute("/(protected)/feed")({
-  loader: async ({ context }) => {
-    await context.queryClient.ensureQueryData(blogsFeedQueryOptions());
-  },
-  head: () => ({
-    meta: [{ title: "Feed" }],
-  }),
-});
-
-function RouteComponent() {
-  const { data: blogs } = useSuspenseQuery(blogsFeedQueryOptions());
-  return <>...</>;
-}
-```
-
-### Benefits
-
-- Server-side prefetching via route loaders
-- Automatic cache invalidation
-- Type-safe query keys and data
-- SSR-friendly with Suspense
-- Simplified component data fetching
-
-### Database & ORM
-
-MetaPress uses **Drizzle ORM** with PostgreSQL:
-
-#### Schema
-
-- `users` - User accounts, roles, profile data
-- `blogs` - Blog posts with content, metadata
-- `comments` - Comments on blogs
-- `likes` - User likes on blogs
-- `_prisma_migrations` - Migration tracking
-
-#### Setup
-
-```bash
-cd apps/web
-
-# Generate schema
-bun drizzle-kit generate
-
-# Apply migrations
-bun drizzle-kit push
-
-# Migrate + seed
-bun drizzle-kit migrate
-```
-
-#### Features
-
-- Relationships with foreign keys
-- Proper indexing for performance
-- Enum types for roles (ADMIN, USER)
-- Timestamps (createdAt, updatedAt)
-
-## Docker Setup
-
-If you have a `docker-compose.yml` file in `apps/web/`, you can use it for local PostgreSQL/Redis:
-
-- **PostgreSQL**: Port 5432
-- **Redis**: Port 6379
-
-Start:
-
-```bash
-bun docker
-# or manually:
-docker compose -f apps/web/docker-compose.yml up -d
-```
-
-Stop:
-
-```bash
-docker compose -f apps/web/docker-compose.yml down
-```
-
-View logs:
-
-```bash
-docker compose -f apps/web/docker-compose.yml logs -f
-```
-
-**Note**: If you don't have a docker-compose.yml file, you can create one or use a managed database service like Neon for PostgreSQL and Upstash for Redis.
-
-## MCP Integration
-
-MetaPress uses Model Context Protocol (MCP) for AI-powered user info and tools.
-
-### Tool: getUserInfo
-
-Get user details by username (3-30 chars, lowercase, alphanumeric/underscores).
-
-**Returns:**
-
-- Display name
-- Username
-- Join date
-- Total blogs
-- Total likes
-- Role (ADMIN/USER)
-
-### Endpoints
-
-- HTTP: `POST /api/mcp/http`
-- SSE: `GET /api/mcp/sse`
-- WebSocket: `WS /api/mcp/ws`
-
-### Example
-
-```ts
-import { Client } from "@modelcontextprotocol/sdk/client/index.js";
-const client = new Client({ name: "metapress-client" });
-const result = await client.callTool({
-  name: "getUserInfo",
-  arguments: { username: "johndoe" },
-});
-```
-
-### Development
-
-- Handler: `apps/web/src/routes/api/mcp/$.ts`
-- Schema: `apps/web/src/server/mcp/mcp.schema.ts`
-
-## Deployment
-
-### Vercel (Recommended)
-
-1. Connect repo to Vercel
-2. Set env vars
-3. Deploy on push
-4. MCP endpoints auto-enabled
-
-### Other Platforms
-
-- **Railway**: PG/Redis support
-- **Render**: Full-stack
-- **DigitalOcean App Platform**
-
-### Production Env
-
-Set all required env vars:
-
-- DB connection (DATABASE_URL/POSTGRES_URL)
-- Cloudinary creds
-- Auth secrets
-- Redis (optional)
-- OAuth (optional)
-- Email (optional)
-
-### Build
-
-- **Vite** for development and production builds
-- **Nitro** for server-side rendering and API routes
-- **Bun** as package manager and runtime
-- **Turborepo** for monorepo task orchestration
-
-## Contributing
-
-1. Fork repo
-2. Create feature branch: `git checkout -b feature/your-feature`
-3. Commit: `git commit -m 'Add feature'`
-4. Push: `git push origin feature/your-feature`
-5. Open PR
-
-### Guidelines
-
-- TypeScript best practices
-- Conventional commits
-- Pass all tests
-- Update docs
-- Use Vite for development
-- Test on multiple devices
-- Follow TanStack Router conventions
-
-## License
-
-MIT - see [LICENSE](LICENSE)
-
-## Acknowledgments
-
-- [Better Auth](https://www.better-auth.com/)
-- [TipTap](https://tiptap.dev/)
-- [shadcn/ui](https://ui.shadcn.com/)
-- [Cloudinary](https://cloudinary.com/)
-- [Drizzle ORM](https://orm.drizzle.team/)
-- [Vercel](https://vercel.com/)
-- [Model Context Protocol](https://modelcontextprotocol.io/)
-- [TanStack Start](https://tanstack.com/start)
-- [TanStack Router](https://tanstack.com/router)
-- [Vite](https://vitejs.dev/)
-- [Nitro](https://nitro.unjs.io/)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Bun](https://bun.sh/)
-
----
-
----
-
-**Author**: dhruvjangid  
-**Description**: The Pulse of Creativity
-
-For questions/support, visit [Contact](/contact) or open a GitHub issue.
+| Command                          | Description                                                 |
+| -------------------------------- | ----------------------------------------------------------- |
+| `bun run dev`                    | Start all apps in development mode through Turborepo.       |
+| `bun run start`                  | Start built apps through Turborepo.                         |
+| `bun run build`                  | Build all apps and packages.                                |
+| `bun run check-types`            | Run TypeScript checks across the workspace.                 |
+| `bun run dev:web`                | Start only the SvelteKit web app.                           |
+| `bun run dev:server`             | Start only the Bun/Elysia API server.                       |
+| `bun run db:start`               | Start local PostgreSQL and Redis with Docker Compose.       |
+| `bun run db:watch`               | Run Docker Compose in the foreground.                       |
+| `bun run db:stop`                | Stop local database/cache containers.                       |
+| `bun run db:down`                | Stop and remove local database/cache containers.            |
+| `bun run db:push`                | Push Drizzle schema changes to the database.                |
+| `bun run db:generate`            | Generate Drizzle migration files.                           |
+| `bun run db:migrate`             | Run Drizzle migrations.                                     |
+| `bun run db:studio`              | Open Drizzle Studio.                                        |
+| `bun run check`                  | Run Oxlint and Oxfmt.                                       |
+| `bun run cache:flush`            | Flush Redis cache data.                                     |
+| `bun run cache:warmup:likes`     | Warm Redis like counters and liked-blog cache.              |
+| `bun run cache:warmup:usernames` | Warm username cache from the database.                      |
+| `bun run clean`                  | Remove dependencies, caches, lockfile, and build artifacts. |
+
+`bun run clean` is destructive. It removes `node_modules`, `.turbo`, `bun.lock`, server build output, and SvelteKit/Vercel build folders.
+
+## Application Routes
+
+- Public pages: `/`, `/about`, `/contact`, `/policies`, `/callback/oauth`.
+- Auth pages: `/sign-in`, `/sign-up`, `/forget-password`, `/reset-password`.
+- Protected pages: `/browse`, `/feed`, `/create-blog`, `/edit-blog/[blogid]`, `/[username]`, `/[username]/[blogid]`, `/account/profile`, `/account/liked`.
+- Admin page: `/admin/dashboard`.
+
+## API Domains
+
+- `blog`: feed, detail, create, update, delete, like, unlike.
+- `comment`: list, create, delete.
+- `media`: Cloudinary upload signature and bulk delete.
+- `user`: contact, newsletter subscription, profile with blogs, liked blogs.
+- `auth`: Better Auth endpoints mounted under `/api/auth/*`.
+
+## Database
+
+The database package uses Drizzle ORM with PostgreSQL. The schema includes:
+
+- `users`, `sessions`, `accounts`, and `verifications` for Better Auth.
+- `blogs` and `blog_images` for published content and Cloudinary assets.
+- `comments` for blog discussions.
+- `likes` with a composite key of `userId` and `blogId`.
+
+IDs are generated as Snowflake strings and public blog IDs are encoded with Hashids.
+
+## Deployment Notes
+
+- The web app uses `@sveltejs/adapter-vercel` and is configured for Vercel deployment.
+- The API server is a Bun/Elysia app that listens on port `3000`.
+- Set `PUBLIC_SERVER_URL` in the web deployment to the deployed API origin.
+- Set `BETTER_AUTH_URL` to the deployed API origin.
+- Set `CORS_ORIGIN` to the deployed web origin, for example `https://metapress.vercel.app`.
+- Production cookies are configured as secure and `sameSite: none`, so HTTPS is required.

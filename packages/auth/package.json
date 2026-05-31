@@ -1,0 +1,18 @@
+{
+  "name": "@metapress/auth",
+  "type": "module",
+  "exports": {
+    "./server": "./src/server.ts",
+    "./web": "./src/web.ts"
+  },
+  "scripts": {},
+  "dependencies": {
+    "@metapress/db": "workspace:*",
+    "@metapress/env": "workspace:*",
+    "better-auth": "1.6.13"
+  },
+  "devDependencies": {
+    "@metapress/config": "workspace:*",
+    "typescript": "catalog:"
+  }
+}

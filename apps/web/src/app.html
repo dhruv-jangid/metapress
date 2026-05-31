@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="text-scale" content="scale" />
+    <meta name="application-name" content="MetaPress" />
+    <meta name="author" content="Dhruv Jangid" />
+    <meta name="creator" content="Dhruv Jangid" />
+    <meta
+      name="description"
+      content="Enjoy the blogs that you love, upload original content and share it all with friends, family and the world on MetaPress."
+    />
+    <link rel="author" href="https://github.com/dhrvjgd" />
+    %sveltekit.head%
+  </head>
+  <body data-sveltekit-preload-data="hover">
+    <div style="display: contents">%sveltekit.body%</div>
+    <script>
+      document.addEventListener("dragstart", (e) => {
+        if (e.target.tagName === "IMG") {
+          e.preventDefault();
+        }
+      });
+      document.addEventListener("contextmenu", (e) => {
+        if (e.target.tagName === "IMG") {
+          e.preventDefault();
+        }
+      });
+    </script>
+  </body>
+</html>

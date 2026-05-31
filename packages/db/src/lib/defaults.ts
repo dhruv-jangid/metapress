@@ -1,0 +1,36 @@
+export const DEFAULTS = {
+  ID_LENGTH: 20,
+
+  // Users
+  DEFAULT_NAME: "MetaPress User",
+  NAME_LENGTH: 50,
+  USERNAME_LENGTH: 30,
+  EMAIL_LENGTH: 255,
+  EMAIL_VERIFIED: false,
+  ROLE_LENGTH: 5,
+  DEFAULT_ROLE: "user",
+  BANNED: false,
+
+  // Blogs
+  TITLE_LENGTH: 100,
+  CATEGORY_LENGTH: 50,
+  LIKES: 0,
+
+  // BlogImages
+  ORDER: 0,
+  IP_ADDRESS_LENGTH: 45,
+
+  // Accounts
+  ACCOUNT_ID_LENGTH: 255,
+  PROVIDER_ID_LENGTH: 50,
+  SCOPE_LENGTH: 255,
+  PASSWORD_LENGTH: 255,
+  USER_AGENT_LENGTH: 512,
+
+  // Sessions
+  TOKEN_LENGTH: 255,
+
+  // Verifications
+  IDENTIFIER_LENGTH: 255,
+  VALUE_LENGTH: 255,
+} as const;

@@ -1,0 +1,42 @@
+{
+  "name": "server",
+  "version": "0.1.0",
+  "type": "module",
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "tsdown",
+    "check-types": "tsc -b",
+    "compile": "bun build --compile --minify --sourcemap --bytecode ./src/index.ts --outfile server",
+    "dev": "bun run --hot src/index.ts",
+    "start": "bun run dist/index.mjs",
+    "cache:flush": "bun run src/modules/cache/scripts/flush.ts",
+    "cache:warmup:likes": "bun run src/modules/cache/scripts/warmup-likes.ts",
+    "cache:warmup:usernames": "bun run src/modules/cache/scripts/warmup-usernames.ts"
+  },
+  "dependencies": {
+    "@elysia/cron": "^1.4.2",
+    "@elysiajs/cors": "^1.4.1",
+    "@metapress/api": "workspace:*",
+    "@metapress/auth": "workspace:*",
+    "@metapress/db": "workspace:*",
+    "@metapress/env": "workspace:*",
+    "@metapress/logger": "workspace:*",
+    "@orpc/openapi": "^1.13.14",
+    "@orpc/server": "^1.14.3",
+    "@orpc/zod": "^1.13.14",
+    "@sinclair/typebox": "^0.34.49",
+    "cloudinary": "^2.10.0",
+    "drizzle-orm": "catalog:",
+    "elysia": "^1.4.28",
+    "hashids": "^2.3.0",
+    "nodemailer": "^8.0.7",
+    "redis": "^6.0.0",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@metapress/config": "workspace:*",
+    "@types/nodemailer": "^8.0.0",
+    "tsdown": "^0.22.1",
+    "typescript": "catalog:"
+  }
+}
