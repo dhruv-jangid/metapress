@@ -26,7 +26,7 @@
     try {
       ContactUserSchema.parse({ email });
 
-      await $contactUserMutation.mutateAsync({ email });
+      await contactUserMutation.mutateAsync({ email });
 
       toast.success("We will contact you back shortly.");
     } catch (error) {

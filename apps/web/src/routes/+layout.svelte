@@ -2,9 +2,10 @@
   import "./layout.css";
   import AlertDialogProvider from "$lib/components/alert-dialog.svelte";
   import { Toaster } from "$lib/components/ui/sonner";
+  import { QueryClientProvider } from "@tanstack/svelte-query";
   import { ModeWatcher } from "mode-watcher";
 
-  let { children } = $props();
+  let { children, data } = $props();
 </script>
 
 <svelte:head>
@@ -12,7 +13,9 @@
   <link rel="icon" href="/favicon.svg" />
 </svelte:head>
 
-<ModeWatcher defaultMode="dark" />
-<Toaster />
-<AlertDialogProvider />
-{@render children()}
+<QueryClientProvider client={data.queryClient}>
+  <ModeWatcher defaultMode="dark" />
+  <Toaster />
+  <AlertDialogProvider />
+  {@render children()}
+</QueryClientProvider>
