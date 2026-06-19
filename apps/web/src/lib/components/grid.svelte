@@ -1,7 +1,7 @@
 <script lang="ts">
   import { ArrowUpRight } from "@hugeicons/core-free-icons";
   import { HugeiconsIcon } from "@hugeicons/svelte";
-  import type { Blog } from "@metapress/api/schemas/common";
+  import type { Blog } from "@metapress/contracts/blogs";
   import { Image } from "@unpic/svelte";
 
   import { Badge } from "./ui/badge";

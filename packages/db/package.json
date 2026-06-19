@@ -2,9 +2,30 @@
   "name": "@metapress/db",
   "type": "module",
   "exports": {
-    ".": "./src/index.ts",
-    "./schemas": "./src/schema/index.ts",
-    "./utils": "./src/lib/unique-violation.ts"
+    ".": {
+      "import": "./src/index.ts"
+    },
+    "./schema": {
+      "import": "./src/modules/schema.ts"
+    },
+    "./auth": {
+      "import": "./src/modules/auth/repository.ts"
+    },
+    "./blogs": {
+      "import": "./src/modules/blogs/repository.ts"
+    },
+    "./comments": {
+      "import": "./src/modules/comments/repository.ts"
+    },
+    "./likes": {
+      "import": "./src/modules/likes/repository.ts"
+    },
+    "./users": {
+      "import": "./src/modules/users/repository.ts"
+    },
+    "./utils": {
+      "import": "./src/lib/unique-violation.ts"
+    }
   },
   "scripts": {
     "db:push": "drizzle-kit push",
@@ -17,14 +38,14 @@
     "db:down": "docker compose down"
   },
   "dependencies": {
+    "@metapress/contracts": "workspace:*",
     "@metapress/env": "workspace:*",
     "@metapress/logger": "workspace:*",
     "@sapphire/snowflake": "^3.5.5",
-    "drizzle-orm": "catalog:",
+    "drizzle-orm": "^0.45.2",
     "pg": "^8.17.1"
   },
   "devDependencies": {
-    "@metapress/api": "workspace:*",
     "@metapress/config": "workspace:*",
     "@types/pg": "^8.16.0",
     "drizzle-kit": "^0.31.8",

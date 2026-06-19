@@ -1,5 +1,4 @@
-import { db } from "@metapress/db";
-import { likes } from "@metapress/db/schemas";
+import { LikeRepository } from "@metapress/db/likes";
 import { useLogger } from "@metapress/logger";
 
 import { blogLikesCK, blogLikesCountCK, userLikedCK, userLikedMetaCK } from "../keys";
@@ -11,9 +10,7 @@ const logger = useLogger("server", "cache", "warmup");
 export const warmupBlogLikes = async () => {
   logger.info("Warming up blog likes set & count cache...");
 
-  const rows = await db
-    .select({ blogId: likes.blogId, userId: likes.userId, createdAt: likes.createdAt })
-    .from(likes);
+  const rows = await LikeRepository.getAll();
 
   if (rows.length === 0) {
     logger.info("No likes found, skipping warmup.");

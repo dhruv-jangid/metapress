@@ -7,7 +7,7 @@
   import { getFirstZodError } from "$lib/utils";
   import { Mail01Icon, SentIcon } from "@hugeicons/core-free-icons";
   import { HugeiconsIcon } from "@hugeicons/svelte";
-  import { ForgetPasswordSchema } from "@metapress/api/schemas/auth";
+  import { ForgetPasswordSchema } from "@metapress/contracts/auth";
   import { toast } from "svelte-sonner";
   import { ZodError } from "zod";
 

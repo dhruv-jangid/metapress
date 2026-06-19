@@ -1,8 +1,6 @@
 import { cron, Patterns } from "@elysia/cron";
-import { db } from "@metapress/db";
-import { blogs } from "@metapress/db/schemas";
+import { LikeRepository } from "@metapress/db/likes";
 import { useLogger } from "@metapress/logger";
-import { eq, sql } from "drizzle-orm";
 import { Elysia } from "elysia";
 
 import { redis } from "../cache/redis";
@@ -59,17 +57,7 @@ export const syncLikesCron = new Elysia().use(
             continue;
           }
 
-          await db.transaction(async (tx) => {
-            for (const update of updates) {
-              await tx
-                .update(blogs)
-                .set({
-                  likes: update.likes,
-                  updatedAt: sql`CURRENT_TIMESTAMP`,
-                })
-                .where(eq(blogs.id, update.id));
-            }
-          });
+          await LikeRepository.createMany(updates);
 
           totalSynced += updates.length;
           logger.info(

@@ -8,7 +8,7 @@
   import { orpc } from "$lib/orpc";
   import { ArrowUpRight01Icon } from "@hugeicons/core-free-icons";
   import { HugeiconsIcon } from "@hugeicons/svelte";
-  import type { Blog } from "@metapress/api/schemas/common";
+  import type { Blog } from "@metapress/contracts/blogs";
   import { createQuery } from "@tanstack/svelte-query";
   import { Image } from "@unpic/svelte";
 

@@ -18,7 +18,7 @@
   } from "$lib/utils.js";
   import { X } from "@hugeicons/core-free-icons";
   import { HugeiconsIcon } from "@hugeicons/svelte";
-  import { BLOG_CATEGORIES } from "@metapress/api/schemas/common";
+  import { BLOG_CATEGORIES } from "@metapress/shared/blogs";
   import { createMutation } from "@tanstack/svelte-query";
   import pLimit from "p-limit";
   import { toast } from "svelte-sonner";

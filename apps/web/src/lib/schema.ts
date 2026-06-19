@@ -1,5 +1,10 @@
-import { ALLOWED_IMAGE_TYPES, ImageURLSchema, MAX_IMAGE_SIZE } from "@metapress/api/schemas/common";
-import { CategorySchema, ContentSchema, TitleSchema } from "@metapress/api/schemas/common";
+import {
+  CategorySchema,
+  ContentSchema,
+  ImageURLSchema,
+  TitleSchema,
+} from "@metapress/contracts/blogs";
+import { ALLOWED_IMAGE_TYPES, MAX_IMAGE_SIZE } from "@metapress/shared/blogs";
 import { z } from "zod";
 
 import { checkNudity } from "./check-nudity";

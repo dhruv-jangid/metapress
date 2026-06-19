@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { BlogContent } from "@metapress/api/schemas/common";
+  import type { BlogContent } from "@metapress/contracts/blogs";
   import { Editor, Extensions } from "@metapress/editor";
   import { onMount, onDestroy } from "svelte";
   import { toast } from "svelte-sonner";

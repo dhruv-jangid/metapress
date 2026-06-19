@@ -15,7 +15,7 @@
   import { ScrollArea } from "$lib/components/ui/scroll-area";
   import { FullScreenIcon, Upload } from "@hugeicons/core-free-icons";
   import { HugeiconsIcon } from "@hugeicons/svelte";
-  import type { BlogContent } from "@metapress/api/schemas/common";
+  import type { BlogContent } from "@metapress/contracts/blogs";
   import { Extensions } from "@metapress/editor";
   import { generateHTML } from "@tiptap/html";
 

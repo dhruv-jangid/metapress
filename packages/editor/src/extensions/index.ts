@@ -1,4 +1,4 @@
-import { ALLOWED_IMAGE_TYPES } from "@metapress/api/schemas/common";
+import { ALLOWED_IMAGE_TYPES } from "@metapress/shared/blogs";
 import type { Extensions as Es } from "@tiptap/core";
 import { BubbleMenu } from "@tiptap/extension-bubble-menu";
 import { DragHandle } from "@tiptap/extension-drag-handle";

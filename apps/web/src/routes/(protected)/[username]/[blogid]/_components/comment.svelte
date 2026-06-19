@@ -4,7 +4,7 @@
   import { getFirstZodError } from "$lib/utils";
   import { MessageSquareText, Trash2 } from "@hugeicons/core-free-icons";
   import { HugeiconsIcon } from "@hugeicons/svelte";
-  import type { BlogComment } from "@metapress/api/schemas/comment";
+  import type { BlogComment } from "@metapress/contracts/comments";
   import { createMutation } from "@tanstack/svelte-query";
   import { toast } from "svelte-sonner";
   import { ZodError } from "zod";

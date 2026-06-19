@@ -1,9 +1,13 @@
-import type { DeleteMediaInput } from "@metapress/api/schemas/media";
+import type { GetMediaSignatureInput as GMSI, DeleteMediaInput } from "@metapress/contracts/media";
 import { env } from "@metapress/env/server";
 import { ORPCError } from "@orpc/server";
 import { v2 as cloudinary } from "cloudinary";
 
-import type { GetMediaSignatureInput } from "./types";
+export type GetMediaSignatureInput = GMSI & {
+  timestamp: string;
+  transformation: string;
+  asset_folder: string;
+};
 
 const cloud_name = env.CLOUDINARY_CLOUD_NAME;
 const api_key = env.CLOUDINARY_API_KEY;

@@ -1,0 +1,42 @@
+{
+  "name": "@metapress/contracts",
+  "type": "module",
+  "exports": {
+    "./orpc": {
+      "import": "./src/orpc.ts",
+      "types": "./src/orpc.ts"
+    },
+    "./auth": {
+      "import": "./src/modules/auth/index.ts"
+    },
+    "./blogs": {
+      "import": "./src/modules/blogs/index.ts",
+      "types": "./src/modules/blogs/index.ts"
+    },
+    "./comments": {
+      "import": "./src/modules/comments/index.ts",
+      "types": "./src/modules/comments/index.ts"
+    },
+    "./common": {
+      "import": "./src/modules/common/index.ts"
+    },
+    "./media": {
+      "import": "./src/modules/media/index.ts",
+      "types": "./src/modules/media/index.ts"
+    },
+    "./users": {
+      "import": "./src/modules/users/index.ts",
+      "types": "./src/modules/users/index.ts"
+    }
+  },
+  "dependencies": {
+    "@metapress/shared": "workspace:*",
+    "@orpc/contract": "^1.14.3",
+    "zod": "catalog:"
+  },
+  "devDependencies": {
+    "@metapress/config": "workspace:*",
+    "@tiptap/core": "catalog:",
+    "typescript": "catalog:"
+  }
+}

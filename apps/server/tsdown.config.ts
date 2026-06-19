@@ -6,4 +6,5 @@ export default defineConfig({
   outDir: "./dist",
   clean: true,
   deps: { alwaysBundle: [/@metapress\/.*/], neverBundle: [/^@opentelemetry\/api$/] },
+  dts: false,
 });

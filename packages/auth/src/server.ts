@@ -1,5 +1,5 @@
 import { db } from "@metapress/db";
-import * as schema from "@metapress/db/schemas";
+import * as schema from "@metapress/db/schema";
 import { env } from "@metapress/env/server";
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";

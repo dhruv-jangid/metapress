@@ -8,7 +8,7 @@
   import { getFirstZodError } from "$lib/utils";
   import { Eye, EyeOff, ResetPasswordIcon } from "@hugeicons/core-free-icons";
   import { HugeiconsIcon } from "@hugeicons/svelte";
-  import { ResetPasswordSchema } from "@metapress/api/schemas/auth";
+  import { ResetPasswordSchema } from "@metapress/contracts/auth";
   import { toast } from "svelte-sonner";
   import { ZodError } from "zod";
 

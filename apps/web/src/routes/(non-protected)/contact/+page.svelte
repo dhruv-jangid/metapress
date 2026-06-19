@@ -7,7 +7,7 @@
   import { getFirstZodError } from "$lib/utils";
   import { Mail01Icon, SentIcon } from "@hugeicons/core-free-icons";
   import { HugeiconsIcon } from "@hugeicons/svelte";
-  import { ContactUserSchema } from "@metapress/api/schemas/common";
+  import { ContactUserSchema } from "@metapress/contracts/users";
   import { createMutation } from "@tanstack/svelte-query";
   import { toast } from "svelte-sonner";
   import { ZodError } from "zod";

@@ -1,4 +1,4 @@
-import { router } from "@metapress/api/router";
+import { router } from "@metapress/contracts/orpc";
 import { implement } from "@orpc/server";
 
 import { authMiddleware } from "./middleware";

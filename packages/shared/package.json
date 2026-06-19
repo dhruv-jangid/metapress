@@ -1,0 +1,27 @@
+{
+  "name": "@metapress/shared",
+  "type": "module",
+  "exports": {
+    "./auth": {
+      "import": "./src/modules/auth/index.ts"
+    },
+    "./blogs": {
+      "import": "./src/modules/blogs/index.ts",
+      "types": "./src/modules/blogs/types.ts"
+    },
+    "./users": {
+      "import": "./src/modules/users/index.ts",
+      "types": "./src/modules/users/types.ts"
+    },
+    "./utils": {
+      "import": "./src/lib/profanity.ts"
+    }
+  },
+  "dependencies": {
+    "obscenity": "^0.4.6"
+  },
+  "devDependencies": {
+    "@metapress/config": "workspace:*",
+    "typescript": "catalog:"
+  }
+}

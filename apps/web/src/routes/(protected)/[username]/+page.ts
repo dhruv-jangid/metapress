@@ -1,5 +1,5 @@
 import { createORPC } from "$lib/orpc";
-import { UsernameSchema } from "@metapress/api/schemas/common";
+import { UsernameSchema } from "@metapress/contracts/common";
 import { error } from "@sveltejs/kit";
 
 import type { PageLoad } from "./$types";

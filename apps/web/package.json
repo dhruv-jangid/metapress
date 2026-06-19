@@ -1,6 +1,6 @@
 {
   "name": "web",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "private": true,
   "type": "module",
   "scripts": {
@@ -13,11 +13,12 @@
   },
   "dependencies": {
     "@floating-ui/dom": "^1.7.6",
-    "@metapress/api": "workspace:*",
     "@metapress/auth": "workspace:*",
+    "@metapress/contracts": "workspace:*",
     "@metapress/editor": "workspace:*",
     "@metapress/env": "workspace:*",
     "@metapress/logger": "workspace:*",
+    "@metapress/shared": "workspace:*",
     "@orpc/client": "^1.13.14",
     "@orpc/tanstack-query": "^1.13.14",
     "@tailwindcss/typography": "^0.5.19",

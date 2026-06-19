@@ -1,5 +1,4 @@
-import { db } from "@metapress/db";
-import { users } from "@metapress/db/schemas";
+import { UserRepository } from "@metapress/db/users";
 import { useLogger } from "@metapress/logger";
 
 import { usernameBFCK } from "../keys";
@@ -10,10 +9,7 @@ const logger = useLogger("server", "cache", "warmup");
 export const warmupUsernames = async () => {
   logger.info("Warming up username set cache...");
 
-  const usernames = await db
-    .select({ username: users.username })
-    .from(users)
-    .then((rows) => rows.map((r) => r.username));
+  const usernames = await UserRepository.getAllUsernames();
 
   logger.info("Cached usernames");
 

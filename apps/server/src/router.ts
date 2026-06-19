@@ -6,15 +6,15 @@ import {
   likeBlog,
   unLikeBlog,
   updateBlog,
-} from "./modules/blog/router";
-import { createComment, deleteComment, getComments } from "./modules/comment/router";
+} from "./modules/blogs/router";
+import { createComment, deleteComment, getComments } from "./modules/comments/router";
 import { deleteManyMedia, getMediaSignature } from "./modules/media/router";
 import {
   contactUser,
   getUserLikedBlogs,
   getUserWithBlogs,
   subscribeToNewsletter,
-} from "./modules/user/router";
+} from "./modules/users/router";
 
 export const appRouter = {
   blog: {

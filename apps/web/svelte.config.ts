@@ -4,7 +4,7 @@ import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
 
 const config: Config = {
   preprocess: vitePreprocess(),
-  kit: { adapter: adapter() },
+  kit: { adapter: adapter({ runtime: "bun1.x" }) },
   compilerOptions: { runes: true },
 };
 

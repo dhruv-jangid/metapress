@@ -9,7 +9,7 @@
   "dependencies": {
     "@metapress/db": "workspace:*",
     "@metapress/env": "workspace:*",
-    "better-auth": "1.6.14"
+    "better-auth": "1.6.19"
   },
   "devDependencies": {
     "@metapress/config": "workspace:*",

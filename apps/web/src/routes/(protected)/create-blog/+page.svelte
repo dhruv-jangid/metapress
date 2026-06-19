@@ -9,7 +9,8 @@
   import { uploadImage } from "$lib/upload-image";
   import { getFirstZodError } from "$lib/utils";
   import { base64ToFile, collectBase64Srcs, replaceImageUrls } from "$lib/utils";
-  import { BLOG_CATEGORIES, type BlogContent } from "@metapress/api/schemas/common";
+  import type { BlogContent } from "@metapress/contracts/blogs";
+  import { BLOG_CATEGORIES } from "@metapress/shared/blogs";
   import { createMutation } from "@tanstack/svelte-query";
   import pLimit from "p-limit";
   import { toast } from "svelte-sonner";

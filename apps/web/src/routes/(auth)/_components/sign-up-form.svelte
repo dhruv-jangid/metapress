@@ -28,7 +28,7 @@
     UserIcon,
   } from "@hugeicons/core-free-icons";
   import { HugeiconsIcon } from "@hugeicons/svelte";
-  import { SignupSchema } from "@metapress/api/schemas/auth";
+  import { SignupSchema } from "@metapress/contracts/auth";
   import { toast } from "svelte-sonner";
   import { ZodError } from "zod";
 
